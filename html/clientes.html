@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clientes</title>
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+    <header>
+        <h1>Clientes</h1>
+        <nav>
+            <a href="../index.html">Resumo</a>
+            <a href="clientes.html">Clientes</a>
+            <a href="pagamentos.html">Pagamentos</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="cadastroCliente">
+            <h2>Cadastrar Cliente</h2>
+            <form id="formCadastroCliente">
+                <div>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div>
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" name="telefone" required>
+                </div>
+                <div>
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" required>
+                </div>
+                <div>
+                    <label for="documento">Documento:</label>
+                    <input type="file" id="documento" name="documento" accept="image/*" required>
+                </div>
+                <div>
+                    <label for="endereco">Endereço:</label>
+                    <input type="text" id="endereco" name="endereco" required>
+                </div>
+                <div>
+                    <label for="indicacao">Indicado por:</label>
+                    <input type="text" id="indicacao" name="indicacao">
+                </div>
+                <button type="reset">Limpar</button>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+        
+
+        <section id="listaClientes">
+            <h2>Clientes Cadastrados</h2>
+            </section>
+    </main>
+
+    <script src="../app/app.js"></script>
+</body>
+</html>
