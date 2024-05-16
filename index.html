@@ -1,30 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Painel de Controle</title>
-    <link rel="stylesheet" href="/style/style.css">
+    <title>Controle RS</title>
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
     <header>
-        <h1>Painel de Controle de Empréstimos</h1>
+        <h1>Painel de Controle</h1>
         <nav>
-            <a href="index.html">Resumo</a>
-            <a href="/html/clientes.html">Clientes</a>
-            <a href="/html/pagamentos.html">Pagamentos</a>
+            <a href="index.html">Painel</a>
+            <a href="html/cadastro.html">Cadastro</a>
+            <a href="html/pagamentos.html">Pagamentos</a>
         </nav>
     </header>
 
-    <main>
+    <main id="page-container">
         <section id="resumo">
-            <h2>Resumo dos Empréstimos</h2>
-            <div>Empréstimos atrasados: <span id="atrasados">0</span></div>
-            <div>Empréstimos em dia: <span id="emDia">0</span></div>
+            <h2>Resumo dos Controles</h2>
+            <div>Clientes em atraso: <span id="atrasados">0</span></div>
+            <div>Clientes ativos: <span id="ativos" class="valor-positivo">0</span></div> 
             <div>Valor total investido: <span id="totalInvestido">R$ 0,00</span></div>
-            <div>Lucro total: <span id="lucroTotal">R$ 0,00</span></div>
+            <div>Lucro total no período: <span id="lucroTotal">R$ 0,00</span></div>
+            <div>
+                <label for="periodo">Período:</label>
+                <select id="periodo">
+                    <option value="semana">Semana</option>
+                    <option value="mes">Mês</option>
+                </select>
+            </div>
         </section>
-
-        </main>
-
+    </main>
     <script src="app/app.js"></script>
 </body>
 </html>

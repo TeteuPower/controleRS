@@ -2,45 +2,158 @@ body {
     background-color: #222;
     color: #eee;
     font-family: sans-serif;
+    margin: 0; /* Remove margens padrão do body */
+    visibility: hidden;
 }
 
-/* Estilos para header, nav, main, sections, etc. */
+header h1 {
+    text-align: center;
+    padding: 20px 0;
+}
+
+nav {
+    text-align: center; /* Centraliza os links de navegação */
+}
+
+nav a {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px;
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+nav a:hover {
+    transform: translateY(-3px);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.6);
+}
+
+#resumo {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto; /* Centraliza horizontalmente */
+    max-width: 800px; /* Limita a largura máxima */
+    text-align: center;
+}
+
+#resumo div {
+    margin-bottom: 10px;
+}
+
+#atrasados {
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+#ativos { /* Estilo para o número de clientes ativos */
+    color: #4CAF50; /* Cor verde */
+    font-weight: bold;
+}
+
+/* Estilos para formulários */
+#formCadastroCliente, #listaClientes {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
 #formCadastroCliente input[type="text"],
 #formCadastroCliente input[type="tel"],
 #formCadastroCliente input[type="file"] {
-    width: calc(100% - 20px); /* Ocupa 100% da largura do container, menos 20px para padding/margem */
-    max-width: 400px; /* Limita a largura máxima para evitar que fique muito grande em telas maiores */
+    width: calc(100% - 20px);
+    max-width: 400px;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
 #formCadastroCliente {
-    display: flex; /* Ativa o Flexbox no formulário */
-    flex-direction: column; /* Organiza os elementos em coluna */
-    gap: 10px; /* Espaçamento entre os elementos */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 #formCadastroCliente div {
-    display: flex; /* Ativa o Flexbox nos divs que envolvem cada campo */
-    align-items: center; /* Alinha os elementos verticalmente ao centro */
+    display: flex;
+    align-items: center;
 }
 
 #formCadastroCliente label {
-    width: 120px; /* Largura fixa para os labels */
-    margin-right: 10px; /* Espaçamento entre label e input */
+    width: 120px;
+    margin-right: 10px;
 }
 
+#formCadastroCliente h2 {
+    text-align: center; /* Centraliza o texto horizontalmente */
+}
+
+/* Estilos para os botões do formulário */
+.button-container {
+    display: flex; /* Ativa o Flexbox para alinhar os botões horizontalmente */
+    justify-content: center; /* Centraliza os botões horizontalmente */
+}
+
+#formCadastroCliente button {
+    display: inline-block; /* Para que os botões fiquem lado a lado */
+    padding: 15px 30px; /* Mesmo padding dos botões de navegação */
+    margin: 10px; /* Mesma margem dos botões de navegação */
+    color: #fff; /* Cor do texto (branco) */
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Mesma sombra inicial */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Mesma transição */
+}
+
+#formCadastroCliente button:hover { /* Efeito hover */
+    transform: translateY(-3px);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.6);
+}
+
+/* Estilos específicos para cada botão (mantém as cores) */
 #formCadastroCliente button[type="submit"] {
-    padding: 10px 20px; /* Ajuste o padding para diminuir o tamanho */
-    background-color: #4CAF50; /* Cor de fundo (verde) */
-    color: white; /* Cor do texto (branco) */
-    border: none; /* Remove a borda */
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    background-color: #4CAF50; /* Cor verde */
 }
 
 #formCadastroCliente button[type="reset"] {
-    padding: 10px 20px;
-    background-color: #f44336; /* Cor de fundo (vermelho) */
-    color: white;
+    background-color: #f44336; /* Cor vermelha */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    nav a {
+        padding: 10px 20px;
+        margin: 5px;
+    }
+
+    #resumo, #formCadastroCliente, #listaClientes {
+        padding: 15px;
+    }
+}
+
+#page-container {
+    transition: transform 0.5s ease-in-out; /* Transição de transformação */
+}
+
+#page-container.page-entering {
+    transform: scale(0); /* A nova página começa com zoom 0 */
+    opacity: 0;          /* E invisível */
+}
+
+#resumo label { /* Estiliza o label do select */
+    width: auto; /* Permite que o label ocupe o espaço necessário */
+    margin-right: 10px;
+}
+
+#resumo select { /* Estiliza o select */
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #444; /* Cor de fundo mais escura */
+    color: #eee;
     border: none;
-    cursor: pointer;
-    margin-right: 10px; /* Adiciona um espaçamento à direita */
 }
