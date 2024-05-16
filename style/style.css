@@ -9,6 +9,15 @@ body {
 header h1 {
     text-align: center;
     padding: 20px 0;
+    transition: transform 0.5s ease-in-out;
+}
+
+.page-exiting h1 { /* Aplica a animação de saída ao h1 */
+    transform: scale(0);
+}
+
+.page-entering h1 { /* Aplica a animação de entrada ao h1 */
+    transform: scale(0); /* Começa com zoom 0 */
 }
 
 nav {
@@ -156,4 +165,135 @@ nav a:hover {
     background-color: #444; /* Cor de fundo mais escura */
     color: #eee;
     border: none;
+}
+
+/* ... (outros estilos) ... */
+
+#novoPagamento { /* Estilos para a seção de novo pagamento */
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+#novoPagamento h2 {
+    text-align: center;
+}
+
+/* Estilos para a lista suspensa (dropdown) */
+#cliente {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: #eee;
+    box-sizing: border-box;
+}
+
+/* Estilos para a lista com pesquisa (autocomplete) */
+#listaClientes {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+#listaClientes li {
+    padding: 10px;             /* Espaçamento interno */
+    margin: 5px 0;            /* Margem superior e inferior */
+    background-color: #444;    /* Cor de fundo */
+    border-radius: 5px;        /* Bordas arredondadas */
+    cursor: pointer;          /* Muda o cursor para indicar que é clicável */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra inicial (3D) */
+    transition: all 0.3s ease; /* Transição suave para todos os efeitos */
+}
+
+#listaClientes li:hover {   /* Efeito ao passar o mouse */
+    transform: translateY(-2px); /* Eleva o elemento */
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6); /* Aumenta a sombra */
+}
+
+#listaClientes li:active {  /* Efeito ao clicar */
+    transform: translateY(0);  /* Abaixa o elemento */
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Diminui a sombra */
+}
+
+/* Estilos para os cards com fotos */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsivo */
+    gap: 10px;
+}
+
+.card {
+    background-color: #444;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+#opcoesCliente {
+    display: flex;
+    flex-direction: column; /* Organiza os botões em coluna */
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#opcoesCliente button { /* Estilos para os botões de opção */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#btnRegistrarPagamento {
+    background-color: #2196F3; /* Azul */
+    color: white;
+}
+
+#btnNovoEmprestimo {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+}
+
+#opcoesCliente button:hover {
+    opacity: 0.8;
+}
+
+#formPagamento, #formEmprestimo { /* Estilos para os formulários */
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #555;
+    border-radius: 8px;
+}
+
+#formPagamento h3, #formEmprestimo h3 {
+    margin-bottom: 10px;
+}
+
+#formPagamento label, #formEmprestimo label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#formPagamento input, #formEmprestimo input, #formEmprestimo select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+#btnLimparPesquisa { /* Estilo para o botão Limpar */
+    background-color: #f44336; /* Vermelho */
+    color: white;
 }
