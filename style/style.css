@@ -41,6 +41,7 @@ nav a:hover {
     box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.6);
 }
 
+
 #resumo {
     background-color: #333;
     padding: 20px;
@@ -253,7 +254,8 @@ nav a:hover {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease; /* Transição suave para todos os efeitos */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra inicial (3D) */
 }
 
 #btnRegistrarPagamento {
@@ -266,8 +268,14 @@ nav a:hover {
     color: white;
 }
 
-#opcoesCliente button:hover {
-    opacity: 0.8;
+#opcoesCliente button:hover { /* Efeito ao passar o mouse */
+    transform: translateY(-2px); /* Eleva o elemento */
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6); /* Aumenta a sombra */
+}
+
+#opcoesCliente button:active { /* Efeito ao clicar */
+    transform: translateY(0); /* Abaixa o elemento */
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Diminui a sombra */
 }
 
 #formPagamento, #formEmprestimo { /* Estilos para os formulários */
