@@ -79,4 +79,57 @@ document.getElementById('btnLimparPesquisa').addEventListener('click', () => {
     document.querySelectorAll('#formPagamento h3, #formEmprestimo h3').forEach(h3 => {
         h3.textContent = h3.textContent.split(' - ')[0]; // Remove o nome do cliente dos títulos
     });
+    // Limpa o nome do cliente selecionado
+    nomeClienteSelecionado.textContent = '';
 });
+
+// Lógica para mostrar/esconder os formulários e preencher o nome do cliente
+const nomeClienteSelecionado = document.getElementById('nomeClienteSelecionado'); // Elemento para exibir o nome
+
+listaClientes.addEventListener('click', (event) => {
+    const clienteId = event.target.dataset.clienteId;
+    const nomeCliente = event.target.textContent;
+
+    // Exibe as opções do cliente APENAS se um item da lista for clicado
+    if (event.target.tagName === 'LI') {
+        opcoesCliente.style.display = 'block';
+        document.querySelectorAll('#formPagamento h3, #formEmprestimo h3').forEach(h3 => {
+            h3.textContent = `${h3.textContent} - ${nomeCliente}`;
+        });
+        clienteInput.value = nomeCliente;
+
+        // Exibe o nome do cliente selecionado acima dos botões
+        nomeClienteSelecionado.textContent = `Cliente selecionado: ${nomeCliente}`;
+    }
+});
+
+// Lógica para mostrar o calendário ao clicar em um cliente
+const calendario = document.getElementById('calendario');
+const conteudoCalendario = document.getElementById('conteudoCalendario');
+
+listaClientes.addEventListener('click', (event) => {
+    if (event.target.tagName === 'LI') {
+        const clienteId = event.target.dataset.clienteId;
+
+        // Lógica para buscar os empréstimos do cliente (substitua pela sua lógica real)
+        const emprestimosCliente = buscarEmprestimosDoCliente(clienteId); 
+
+        // Preencher o conteúdo do calendário com os empréstimos
+        conteudoCalendario.innerHTML = ''; // Limpa o conteúdo anterior
+        emprestimosCliente.forEach(emprestimo => {
+            // ... (criar elementos HTML para exibir os empréstimos no calendário) ...
+        });
+
+        calendario.style.display = 'block'; // Mostra o calendário
+    }
+});
+
+// Função para buscar os empréstimos do cliente (substitua pela sua lógica real)
+function buscarEmprestimosDoCliente(clienteId) {
+    // ... (lógica para buscar os dados do banco de dados ou API) ...
+    return [
+        { data: '2024-05-25', valor: 500.00 },
+        { data: '2024-06-10', valor: 300.00 },
+        // ... outros empréstimos
+    ];
+}
