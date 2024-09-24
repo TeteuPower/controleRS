@@ -6,6 +6,7 @@ const app = express();
 const jwt = require('jsonwebtoken'); // Importa o módulo jsonwebtoken
 const request = require('request')
 const autenticar = require('./middleware/auth'); // Importa o middleware de autenticação
+const bcrypt = require('bcrypt');
 require('dotenv').config(); // Carrega as variáveis do .env
 
 // Middleware para processar o corpo das requisições POST
@@ -45,31 +46,38 @@ app.get('/teste', (req, res) => {
 })
 
 // API teste
-//app.use('/api/teste', autenticar, require('./routes/teste'));
+//app.use('/api/login', autenticar, require('./routes/teste'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {
-    const { senha } = req.body;
+    const { usuario, senha } = req.body; // Recebe usuário e senha
 
-    const sql = `SELECT * FROM administradores WHERE senha = ?`;
-    db.query(sql, [senha], (err, results) => {
+    const sql = `SELECT * FROM administradores WHERE usuario = ?`; // Busca por usuário
+    db.query(sql, [usuario], async (err, results) => {
         if (err) {
-            console.error('Erro ao verificar a senha:', err);
-            res.status(500).json({ error: 'Erro ao verificar a senha.' });
-            return;
+            console.error('Erro ao verificar o usuário:', err);
+            return res.status(500).json({ error: 'Erro ao verificar o usuário.' });
         }
 
-        if (results.length > 0) {
-            // Senha correta!
-            const administrador = results[0];
+        if (results.length === 0) {
+            return res.status(401).json({ error: 'Usuário não encontrado.' }); 
+        }
 
-            // Gera um token JWT com o ID do administrador
-            const token = jwt.sign({ id: administrador.id }, process.env.JWT_SECRET, {expiresIn: '1h'});
+        const administrador = results[0];
 
-            res.json({ token });
-            
-        } else {
-            res.status(401).json({ error: 'Senha incorreta.' });
+        try {
+            // Compara a senha fornecida com o hash armazenado
+            const senhaValida = await bcrypt.compare(senha, administrador.senha); 
+
+            if (senhaValida) {
+                const token = jwt.sign({ id: administrador.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                return res.json({ token });
+            } else {
+                return res.status(401).json({ error: 'Senha incorreta.' });
+            }
+        } catch (err) {
+            console.error('Erro ao comparar senhas:', err);
+            return res.status(500).json({ error: 'Erro ao verificar a senha.' });
         }
     });
 });
