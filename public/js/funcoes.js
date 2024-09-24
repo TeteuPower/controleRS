@@ -28,6 +28,7 @@ function carregarHeader() {
 
         // Remove o token do Local Storage
         localStorage.removeItem('token');
+        localStorage.removeItem('vendedor');
 
         // Redireciona para a página de login
         window.location.href = '/';
@@ -38,6 +39,7 @@ function carregarHeader() {
 
         // Remove o token do Local Storage
         localStorage.removeItem('token');
+        localStorage.removeItem('vendedor');
 
         // Redireciona para a página de login
         window.location.href = '/';

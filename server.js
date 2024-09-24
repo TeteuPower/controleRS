@@ -47,12 +47,14 @@ app.get('/teste', (req, res) => {
 
 // API para cadastrar vendedores
 app.use('/cadastrar-vendedor', autenticar, require('./routes/cadastrar-vendedor'));
+// API para cadastrar clientes
+app.use('/cadastrar-cliente', autenticar, require('./routes/cadastrar-cliente'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {
     const { usuario, senha } = req.body; // Recebe usuário e senha
 
-    const sql = `SELECT * FROM administradores WHERE usuario = ?`; // Busca por usuário
+    const sql = `SELECT * FROM vendedores WHERE usuario = ?`; // Busca por usuário
     db.query(sql, [usuario], async (err, results) => {
         if (err) {
             console.error('Erro ao verificar o usuário:', err);
@@ -71,7 +73,7 @@ app.post('/api/login', (req, res) => {
 
             if (senhaValida) {
                 const token = jwt.sign({ id: administrador.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-                return res.json({ token });
+                return res.json({ token, id: administrador.id });
             } else {
                 return res.status(401).json({ error: 'Senha incorreta.' });
             }
