@@ -44,8 +44,8 @@ app.get('/teste', (req, res) => {
     res.json({ message: 'Tudo ok por aqui!'})
 })
 
-// Todas as rotas dentro do administradores.js estarão disponíveis em /api/administradores se tiverem a autentificação do token
-app.use('/api/administradores', autenticar, require('./routes/administradores'));
+// API teste
+app.use('/api/teste', autenticar, require('./routes/teste'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {
@@ -64,7 +64,7 @@ app.post('/api/login', (req, res) => {
             const administrador = results[0];
 
             // Gera um token JWT com o ID do administrador
-            const token = jwt.sign({ id: administrador.id }, process.env.JWT_SECRET, {expiresIn: '24h'});
+            const token = jwt.sign({ id: administrador.id }, process.env.JWT_SECRET, {expiresIn: '1h'});
 
             res.json({ token });
             
