@@ -1,0 +1,59 @@
+.container {
+    background-color: #222;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    color: #eee;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #00b894;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="tel"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111;
+    color: #eee;
+}
+
+textarea {
+    min-height: 100px;
+}
+
+button[type="submit"] {
+    background-color: #00b894;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #009688;
+}
+
+/* Estilo para a pré-visualização da imagem */
+#preview-imagem {
+    display: block;
+    margin-top: 10px;
+}

@@ -1,3 +1,47 @@
+/* global.css */
+
+/* Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #222; /* Cor de fundo do body */
+    color: #eee; /* Cor do texto padrão */
+}
+
+/* Container principal - Aplicado em todas as páginas */
+.container {
+    background-color: #333;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para efeito 3D */
+    margin: 20px auto; /* Margem superior e inferior, centralizado horizontalmente */
+    max-width: 800px; /* Largura máxima do container */
+    color: #eee; /* Cor do texto dentro do container */
+}
+
+/* Estilos do Header */
+.hamburger-menu {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.hamburger-menu .bar {
+    width: 30px;
+    height: 4px;
+    background-color: #eee;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
 /* Estilos para o botão hambúrguer ativo */
 .hamburger-menu.active .bar:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
@@ -10,79 +54,50 @@
 .hamburger-menu.active .bar:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
 }
-/* Media Query para telas menores */
-@media (max-width: 1096px) {
-    .hamburger-menu {
-        display: block; /* Exibe o botão em telas menores */
-    }
 
-    .admin-menu {
-        display: none; /* Oculta o menu original em telas menores */
-    }
-}
-/* Estilos para o botão hambúrguer */
-.hamburger-menu {
-    display: none; /* Oculta o botão em telas maiores */
-    position: fixed; /* Fixa o botão no canto superior esquerdo */
-    top: 20px;
-    left: 20px;
-    z-index: 10; /* Garante que o botão fique acima de outros elementos */
-    cursor: pointer;
+.admin-menu {
+    background-color: #222;
+    color: #eee;
+    padding: 20px;
 }
 
-.hamburger-menu .bar {
-    width: 30px;
-    height: 4px;
-    background-color: #eee;
-    margin: 6px 0;
-    transition: 0.4s; /* Adiciona uma transição suave */
+.admin-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
 }
 
-/* Estilos para o menu de navegação móvel */
+.admin-menu li a {
+    text-decoration: none;
+    color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.admin-menu li a.active, 
+.admin-menu li a:hover {
+    background-color: #555;
+}
+
 .mobile-menu {
-    display: none; /* Oculta o menu em telas maiores */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
-    z-index: 9; /* Garante que o menu fique abaixo do botão hambúrguer */
-    overflow-y: auto; /* Permite rolagem se o menu for muito longo */
-}
-
-.mobile-menu ul li ul {
-    display: none; /* Oculta o submenu por padrão */
-    position: relative; /* Posiciona o submenu em relação ao item pai */
-    background-color: #333;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1; /* Garante que o submenu fique acima do menu principal */
-}
-
-.mobile-menu ul li:hover ul {
-    display: block; /* Exibe o submenu ao passar o mouse sobre o item */
-}
-
-.mobile-menu ul li ul li {
-    padding: 5px 10px;
-    border-bottom: 1px solid #555;
-}
-
-.mobile-menu ul li ul li:last-child {
-    border-bottom: none;
-}
-
-.mobile-menu ul li ul li a {
-    text-decoration: none;
-    color: #eee;
+    z-index: 9;
+    overflow-y: auto;
 }
 
 .mobile-menu ul {
     list-style: none;
     padding: 0;
-    margin-top: 60px; /* Espaço para o botão hambúrguer */
+    margin-top: 60px;
 }
 
 .mobile-menu li {
@@ -96,72 +111,59 @@
     font-size: 1.2em;
 }
 
-.admin-menu ul li ul {
-    display: none; /* Oculta o submenu por padrão */
+/* Submenus */
+.admin-menu ul li ul,
+.mobile-menu ul li ul {
+    display: none;
     position: absolute;
     background-color: #333;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 1; /* Garante que o submenu fique acima do menu principal */
+    z-index: 1; 
 }
 
-.admin-menu ul li:hover ul {
-    display: block; /* Exibe o submenu ao passar o mouse sobre o item */
+.admin-menu ul li:hover ul,
+.mobile-menu ul li:hover ul {
+    display: block;
 }
 
-.admin-menu ul li ul li {
+.admin-menu ul li ul li,
+.mobile-menu ul li ul li {
     padding: 5px 10px;
     border-bottom: 1px solid #555;
 }
 
-.admin-menu ul li ul li:last-child {
+.admin-menu ul li ul li:last-child,
+.mobile-menu ul li ul li:last-child {
     border-bottom: none;
 }
 
-.admin-menu ul li ul li a {
+.admin-menu ul li ul li a,
+.mobile-menu ul li ul li a {
     text-decoration: none;
     color: #eee;
 }
 
-.admin-menu {
-    background-color: #222;
-    color: #eee;
-    padding: 20px;
-}
-
-.admin-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex; /* Para tornar os itens de menu horizontais */
-    justify-content: space-around; /* Distribui o espaço entre os itens */
-}
-
-.admin-menu li a {
-    text-decoration: none;
-    color: #eee;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease; /* Adiciona uma transição suave */
-}
-
-.admin-menu li a.active, /* Estilo para o link da página atual */
-.admin-menu li a:hover {
-    background-color: #555;
-}
-
-/* Estilos Responsivos - Ajusta o layout para telas menores */
+/* Media Queries - Responsividade */
 @media (max-width: 1096px) {
+    .hamburger-menu {
+        display: block;
+    }
+
+    .admin-menu {
+        display: none;
+    }
+
     .section-container {
-        flex-direction: column; 
+        flex-direction: column;
     }
 
     .admin-menu ul {
-        flex-direction: column; /* Itens do menu em coluna */
+        flex-direction: column;
     }
 
     .admin-menu li {
-        margin-bottom: 10px; /* Espaçamento entre itens do menu */
+        margin-bottom: 10px;
     }
 }

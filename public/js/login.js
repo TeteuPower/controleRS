@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 // Login bem-sucedido!
                 localStorage.setItem('token', data.token); // Salva o token no localStorage
-                window.location.href = '/dashboard'; // Redireciona para a página do dashboard (a ser criada)
+                window.location.href = '../html/cadastrar-cliente.html'; // Redireciona para a página do dashboard (a ser criada)
             })
             .catch(error => {
                 console.error('Erro durante o login:', error);

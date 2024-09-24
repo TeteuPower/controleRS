@@ -1,0 +1,49 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de cadastro de vendedor */
+#form-cadastrar-vendedor {
+    /* Largura do formulário */
+    max-width: 400px;
+    /* Centraliza o formulário */
+    margin: 0 auto;
+}
+
+#form-cadastrar-vendedor .input-group {
+    margin-bottom: 1.5rem;
+}
+
+#form-cadastrar-vendedor label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #eee; /* Cor do label */
+}
+
+#form-cadastrar-vendedor input[type="text"],
+#form-cadastrar-vendedor input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111; /* Cor de fundo do input */
+    color: #eee; /* Cor do texto do input */
+}
+
+#form-cadastrar-vendedor input:focus {
+    outline: none;
+    border-color: #00b894; /* Cor da borda em foco */
+}
+
+#form-cadastrar-vendedor button[type="submit"] {
+    background-color: #00b894; /* Cor de fundo do botão */
+    color: #fff; /* Cor do texto do botão */
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#form-cadastrar-vendedor button[type="submit"]:hover {
+    background-color: #009688; /* Cor de fundo do botão em foco */
+}

@@ -45,8 +45,8 @@ app.get('/teste', (req, res) => {
     res.json({ message: 'Tudo ok por aqui!'})
 })
 
-// API teste
-//app.use('/api/login', autenticar, require('./routes/teste'));
+// API para cadastrar vendedores
+app.use('/cadastrar-vendedor', autenticar, require('./routes/cadastrar-vendedor'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {
