@@ -49,6 +49,10 @@ app.get('/teste', (req, res) => {
 app.use('/cadastrar-vendedor', autenticar, require('./routes/cadastrar-vendedor'));
 // API para cadastrar clientes
 app.use('/cadastrar-cliente', autenticar, require('./routes/cadastrar-cliente'));
+// API para mudar senha
+app.use('/mudar-senha', autenticar, require('./routes/mudar-senha'));
+// API para mudar usuário
+app.use('/mudar-usuario', autenticar, require('./routes/mudar-usuario'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {
@@ -73,7 +77,7 @@ app.post('/api/login', (req, res) => {
 
             if (senhaValida) {
                 const token = jwt.sign({ id: administrador.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-                return res.json({ token, id: administrador.id });
+                return res.json({ token, id: administrador.id, nome: administrador.nome, usuario: administrador.usuario });
             } else {
                 return res.status(401).json({ error: 'Senha incorreta.' });
             }

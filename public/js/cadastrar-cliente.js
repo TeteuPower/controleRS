@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const telefone = document.getElementById('telefone').value;
         const documento = document.getElementById('documento').value;
         const informacoes = document.getElementById('informacoes').value;
-        const id_vendedor = localStorage.getItem('vendedor'); 
+        const id_vendedor = localStorage.getItem('vendedor_id'); 
   
         // Validações básicas do lado do cliente 
         if (!nome || !id_vendedor) {

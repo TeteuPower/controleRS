@@ -26,7 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Login bem-sucedido!
                 //console.log('Login bem-sucedido:', data);
                 localStorage.setItem('token', data.token); // Salva o token no localStorage
-                localStorage.setItem('vendedor', data.id); // Salva o token no localStorage
+                localStorage.setItem('vendedor_id', data.id);
+                localStorage.setItem('vendedor_nome', data.nome);
+                localStorage.setItem('vendedor_usuario', data.usuario);
                 window.location.href = '../html/cadastrar-cliente.html'; // Redireciona para a página do dashboard (a ser criada)
             })
             .catch(error => {

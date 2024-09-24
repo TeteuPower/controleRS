@@ -167,3 +167,18 @@ body {
         margin-bottom: 10px;
     }
 }
+
+/* Estilos para o botão de logout */
+.btn-logout {
+    background-color: #c0392b; /* Vermelho */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-logout:hover {
+    background-color: #e74c3c; /* Vermelho mais escuro ao passar o mouse */
+  }

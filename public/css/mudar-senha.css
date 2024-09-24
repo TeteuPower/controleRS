@@ -1,0 +1,46 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de mudar senha */
+#form-mudar-senha {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#form-mudar-senha .input-group {
+    margin-bottom: 1.5rem;
+}
+
+#form-mudar-senha label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #eee;
+}
+
+#form-mudar-senha input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111;
+    color: #eee;
+}
+
+#form-mudar-senha input:focus {
+    outline: none;
+    border-color: #00b894;
+}
+
+#form-mudar-senha button[type="submit"] {
+    background-color: #00b894;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#form-mudar-senha button[type="submit"]:hover {
+    background-color: #009688;
+}
