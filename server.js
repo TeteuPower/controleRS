@@ -45,7 +45,7 @@ app.get('/teste', (req, res) => {
 })
 
 // API teste
-app.use('/api/teste', autenticar, require('./routes/teste'));
+//app.use('/api/teste', autenticar, require('./routes/teste'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {
