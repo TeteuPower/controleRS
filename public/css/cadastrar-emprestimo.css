@@ -17,8 +17,7 @@
     color: #eee;
 }
 
-#form-cadastrar-emprestimo input[type="number"],
-#form-cadastrar-emprestimo input[type="date"],
+#form-cadastrar-emprestimo input,
 #form-cadastrar-emprestimo select {
     width: 100%;
     padding: 0.8rem;
@@ -48,12 +47,10 @@
     background-color: #009688;
 }
 
-/* Estilos para o aviso do valor total */
-.aviso {
-    background-color: #f39c12; /* Amarelo */
-    color: white;
-    padding: 10px;
+/* Estilos para a caixa de informações da parcela */
+.info-box {
+    background-color: #444;
+    padding: 1rem;
     border-radius: 5px;
-    margin-bottom: 1rem;
-    display: none; /* Oculta o aviso inicialmente */
+    margin-bottom: 1.5rem;
 }

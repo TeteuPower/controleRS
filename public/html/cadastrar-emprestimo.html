@@ -15,8 +15,8 @@
             <div class="input-group">
                 <label for="cliente">Cliente:</label>
                 <select id="cliente" name="cliente" required>
-                    <option value="">Selecione um cliente</option> 
-                    </select>
+                    <option value="">Selecione o cliente</option> 
+                </select>
             </div>
             <div class="input-group">
                 <label for="valor">Valor do Empréstimo (R$):</label>
@@ -27,19 +27,24 @@
                 <input type="number" id="juros" name="juros" step="0.01" required>
             </div>
             <div class="input-group">
-                <label for="data">Data de Início:</label>
-                <input type="date" id="data" name="data" required>
+                <label for="data-inicio">Data de Início:</label>
+                <input type="date" id="data-inicio" name="data-inicio" required>
             </div>
             <div class="input-group">
-                <label for="tipo">Tipo de Empréstimo:</label>
-                <select id="tipo" name="tipo" required>
+                <label for="tipo-emprestimo">Tipo de Empréstimo:</label>
+                <select id="tipo-emprestimo" name="tipo-emprestimo" required>
                     <option value="">Selecione o tipo</option>
                     <option value="mensal">Mensal</option>
                     <option value="diario">Diário</option>
                 </select>
             </div>
-            <div id="aviso-valor-total" class="aviso">
-                </div>
+            <div class="input-group" id="campo-dias" style="display: none;">
+                <label for="dias">Número de Dias:</label>
+                <input type="number" id="dias" name="dias">
+            </div>
+            <div id="parcela-info" class="info-box" style="display: none;">
+                <!-- Informações sobre a parcela serão exibidas aqui -->
+            </div>
             <button type="submit">Cadastrar Empréstimo</button>
         </form>
     </div>

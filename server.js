@@ -54,7 +54,9 @@ app.use('/mudar-senha', autenticar, require('./routes/mudar-senha'));
 // API para mudar usuário
 app.use('/mudar-usuario', autenticar, require('./routes/mudar-usuario'));
 // API para registrar novo empréstimo
-app.use('/cadastrar-emprestimo', autenticar, require('./routes/cadastrar-emprestimo')); 
+app.use('/cadastrar-emprestimo', autenticar, require('./routes/cadastrar-emprestimo'));
+// Rota para obter os clientes do vendedor
+app.use('/clientes-vendedor', autenticar, require('./routes/clientes-vendedor'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {
@@ -112,24 +114,6 @@ app.get('/api/verificar-token', autenticar, (req, res) => {
     res.json({ valido: true });
 });
 
-// Rota para obter os clientes do vendedor
-app.get('/obter-clientes-vendedor', autenticar, async (req, res) => {
-    const id_vendedor = req.usuario.id;
-  
-    try {
-      const sql = 'SELECT id, nome FROM clientes WHERE id_vendedor = ?';
-      db.query(sql, [id_vendedor], (err, result) => {
-        if (err) {
-          console.error('Erro ao buscar clientes:', err);
-          return res.status(500).json({ error: 'Erro ao buscar clientes.' });
-        }
-        res.json({ clientes: result });
-      });
-    } catch (error) {
-      console.error('Erro ao buscar clientes:', error);
-      return res.status(500).json({ error: 'Erro ao buscar clientes.' });
-    }
-  });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

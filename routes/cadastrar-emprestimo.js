@@ -1,27 +1,37 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); 
+const db = require('../db'); // Importe a conexão com o banco de dados
+const autenticar = require('../middleware/auth'); // Importe o middleware de autenticação
 
-router.post('/', async (req, res) => {
-  const { id_cliente, tipo, valor_total, taxa_juros, data_inicio } = req.body;
-  const id_vendedor = req.usuario.id; 
+router.post('/', autenticar, (req, res) => {
+  const { id_cliente, valor, juros, data_inicio, tipo_emprestimo, dias } = req.body;
+  const idVendedor = req.usuario.id; // Obtém o ID do vendedor do token JWT
 
   try {
-    // 1. Validações
-    if (!id_cliente || !tipo || !valor_total || !taxa_juros || !data_inicio) {
-      return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+    // 1. Validações (adicione mais validações conforme necessário)
+    if (!id_cliente || !valor || !juros || !data_inicio || !tipo_emprestimo) {
+      return res.status(400).json({ error: 'Preencha todos os campos obrigatórios.' });
     }
 
-    // 2. Verificar se o cliente pertence ao vendedor
-    const clientePertenceAoVendedor = await verificarClienteVendedor(id_cliente, id_vendedor);
-    if (!clientePertenceAoVendedor) {
-      return res.status(403).json({ error: 'Você não tem permissão para criar um empréstimo para este cliente.' });
+    if (tipo_emprestimo === 'diario' && !dias) {
+      return res.status(400).json({ error: 'Informe o número de dias para empréstimos diários.' });
     }
 
-    // 3. Inserir o novo empréstimo no banco de dados
-    const sql = `INSERT INTO emprestimos (id_cliente, tipo, valor_total, taxa_juros, data_inicio, status) 
-                 VALUES (?, ?, ?, ?, ?, 'ativo')`; 
-    const values = [id_cliente, tipo, valor_total, taxa_juros, data_inicio];
+    // 2. Inserir o empréstimo na tabela correta
+    let sql;
+    let values;
+
+    if (tipo_emprestimo === 'mensal') {
+      sql = `INSERT INTO emprestimos_mensais (id_cliente, valor_total, taxa_juros, data_inicio) 
+             VALUES (?, ?, ?, ?)`;
+      values = [id_cliente, valor, juros, data_inicio];
+    } else if (tipo_emprestimo === 'diario') {
+      sql = `INSERT INTO emprestimos_diarios (id_cliente, valor_total, taxa_juros, data_inicio, numero_dias) 
+             VALUES (?, ?, ?, ?, ?)`;
+      values = [id_cliente, valor, juros, data_inicio, dias];
+    } else {
+      return res.status(400).json({ error: 'Tipo de empréstimo inválido.' });
+    }
 
     db.query(sql, values, (err, result) => {
       if (err) {
@@ -37,19 +47,5 @@ router.post('/', async (req, res) => {
     return res.status(500).json({ error: 'Erro ao cadastrar empréstimo.' });
   }
 });
-
-// Função auxiliar para verificar se o cliente pertence ao vendedor
-async function verificarClienteVendedor(id_cliente, id_vendedor) {
-  return new Promise((resolve, reject) => {
-    const sql = 'SELECT 1 FROM clientes WHERE id = ? AND id_vendedor = ?';
-    db.query(sql, [id_cliente, id_vendedor], (err, result) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result.length > 0); 
-      }
-    });
-  });
-}
 
 module.exports = router;

@@ -1,113 +1,126 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const formCadastrarEmprestimo = document.getElementById('form-cadastrar-emprestimo');
-    const selectCliente = document.getElementById('cliente');
-    const inputValor = document.getElementById('valor');
-    const inputJuros = document.getElementById('juros');
-    const avisoValorTotal = document.getElementById('aviso-valor-total');
-  
-    // Função para obter os clientes do vendedor do backend
-    async function carregarClientes() {
-      try {
-        const response = await fetch('/obter-clientes-vendedor', {
-          method: 'GET',
-          headers: {
-            'Authorization': localStorage.getItem('token'),
-          },
-        });
-  
+  const formCadastrarEmprestimo = document.getElementById('form-cadastrar-emprestimo');
+  const selectCliente = document.getElementById('cliente');
+  const selectTipoEmprestimo = document.getElementById('tipo-emprestimo');
+  const campoDias = document.getElementById('campo-dias');
+  const parcelaInfo = document.getElementById('parcela-info');
+
+  // Função para buscar os clientes do vendedor
+  function buscarClientes() {
+    fetch('/clientes-vendedor', {
+      headers: {
+        'Authorization': localStorage.getItem('token'), // Adiciona o token no header
+      },
+    })
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Erro ao obter clientes.');
+          throw new Error('Erro ao buscar clientes.');
         }
-  
-        const data = await response.json();
-        return data.clientes; // Retorna a lista de clientes do vendedor
-      } catch (error) {
-        console.error('Erro ao carregar clientes:', error);
-        alert('Erro ao carregar clientes. Por favor, tente novamente.');
-        return [];
-      }
-    }
-  
-    // Função para calcular e exibir o valor total do empréstimo
-    function calcularValorTotal(valor, juros) {
-      const valorTotal = valor * (1 + juros / 100);
-      avisoValorTotal.textContent = `Valor total do empréstimo: R$ ${valorTotal.toFixed(2)}`;
-      avisoValorTotal.style.display = 'block';
-    }
-  
-    // Carregar clientes ao carregar a página
-    carregarClientes().then((clientes) => {
-      clientes.forEach((cliente) => {
-        const option = document.createElement('option');
-        option.value = cliente.id;
-        option.textContent = cliente.nome;
-        selectCliente.appendChild(option);
+        return response.json();
+      })
+      .then((clientes) => {
+        clientes.forEach((cliente) => {
+          const option = document.createElement('option');
+          option.value = cliente.id;
+          option.text = cliente.nome;
+          selectCliente.add(option);
+        });
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar clientes:', error);
+        alert('Erro ao buscar clientes. Por favor, tente novamente.');
       });
-    });
-  
-    // Adicionar evento de input aos campos de valor e juros para calcular o valor total
-    inputValor.addEventListener('input', () => {
-      const valor = parseFloat(inputValor.value) || 0;
-      const juros = parseFloat(inputJuros.value) || 0;
-      calcularValorTotal(valor, juros);
-    });
-  
-    inputJuros.addEventListener('input', () => {
-      const valor = parseFloat(inputValor.value) || 0;
-      const juros = parseFloat(inputJuros.value) || 0;
-      calcularValorTotal(valor, juros);
-    });
-  
-    // Manipular o envio do formulário
-    if (formCadastrarEmprestimo) {
-      formCadastrarEmprestimo.addEventListener('submit', async (event) => {
-        event.preventDefault();
-  
-        const id_cliente = selectCliente.value;
-        const tipo = document.getElementById('tipo').value;
-        const valor_total = parseFloat(inputValor.value);
-        const taxa_juros = parseFloat(inputJuros.value);
-        const data_inicio = document.getElementById('data').value;
-  
-        // 1. Validações do lado do cliente
-        if (!id_cliente || !tipo || !valor_total || !taxa_juros || !data_inicio) {
-          alert('Por favor, preencha todos os campos.');
-          return;
-        }
-  
-        // 2. Criar objeto com os dados do empréstimo
-        const novoEmprestimo = {
-          id_cliente: parseInt(id_cliente), // Converter para número inteiro
-          tipo: tipo,
-          valor_total: valor_total,
-          taxa_juros: taxa_juros,
-          data_inicio: data_inicio,
-        };
-  
-        // 3. Fazer requisição POST para a API
-        try {
-          const response = await fetch('/cadastrar-emprestimo', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': localStorage.getItem('token'),
-            },
-            body: JSON.stringify(novoEmprestimo),
-          });
-  
-          if (!response.ok) {
-            const errorData = await response.json(); // Obter a resposta de erro como JSON
-            throw new Error(errorData.error || 'Erro ao cadastrar empréstimo.');
-          }
-  
-          const data = await response.json();
-          alert(data.message || 'Empréstimo cadastrado com sucesso!');
-          formCadastrarEmprestimo.reset();
-          avisoValorTotal.style.display = 'none';
-        } catch (error) {
-          console.error('Erro ao cadastrar empréstimo:', error);
-          alert(error.message || 'Erro ao cadastrar empréstimo. Por favor, tente novamente.');
-        }
-      });
+  }
+
+  // Função para mostrar/ocultar o campo "Número de Dias"
+  function mostrarCampoDias() {
+    if (selectTipoEmprestimo.value === 'diario') {
+      campoDias.style.display = 'block';
+    } else {
+      campoDias.style.display = 'none';
     }
+  }
+
+  // Função para calcular e exibir as informações da parcela
+  function calcularParcela() {
+    const valor = parseFloat(document.getElementById('valor').value);
+    const juros = parseFloat(document.getElementById('juros').value) / 100;
+    const tipoEmprestimo = selectTipoEmprestimo.value;
+    const dias = parseInt(document.getElementById('dias').value);
+
+    let parcela = 0;
+    let mensagem = '';
+
+    if (tipoEmprestimo === 'mensal') {
+      parcela = valor * juros;
+      mensagem = `Parcela mensal: R$ ${parcela.toFixed(2)}`;
+    } else if (tipoEmprestimo === 'diario') {
+      parcela = (valor * (juros + 1) ) / dias; // Calcula a parcela diária
+      mensagem = `Parcela diária: R$ ${parcela.toFixed(2)}`;
+    }
+
+    if (parcela > 0) {
+      parcelaInfo.innerHTML = `<p>${mensagem}</p>`;
+      parcelaInfo.style.display = 'block';
+    } else {
+      parcelaInfo.style.display = 'none';
+    }
+  }
+
+  // Chamar a função para buscar os clientes ao carregar a página
+  buscarClientes();
+
+  // Adicionar ouvintes de eventos
+  selectTipoEmprestimo.addEventListener('change', mostrarCampoDias);
+  formCadastrarEmprestimo.addEventListener('input', calcularParcela); // Calcula a parcela ao alterar os valores
+
+  // Manipular o envio do formulário
+  formCadastrarEmprestimo.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Obter os dados do formulário
+    const id_cliente = selectCliente.value;
+    const valor = document.getElementById('valor').value;
+    const juros = document.getElementById('juros').value;
+    const data_inicio = document.getElementById('data-inicio').value;
+    const tipo_emprestimo = selectTipoEmprestimo.value;
+    const dias = document.getElementById('dias').value;
+
+    // Criar objeto com os dados do empréstimo
+    const novoEmprestimo = {
+      id_cliente: id_cliente,
+      valor: valor,
+      juros: juros,
+      data_inicio: data_inicio,
+      tipo_emprestimo: tipo_emprestimo,
+      dias: dias, // Inclui o número de dias, mesmo que seja vazio para empréstimos mensais
+    };
+    console.log(novoEmprestimo);
+    // Fazer requisição POST para a API
+    fetch('/cadastrar-emprestimo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token'), // Adiciona o token no header
+      },
+      body: JSON.stringify(novoEmprestimo),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erro na requisição.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Empréstimo cadastrado com sucesso!
+        alert(data.message || 'Empréstimo cadastrado com sucesso!');
+        formCadastrarEmprestimo.reset(); // Limpa o formulário
+        parcelaInfo.style.display = 'none'; // Oculta a caixa de informações da parcela
+        campoDias.style.display = 'none'; // Oculta o campo "Número de Dias"
+      })
+      .catch((error) => {
+        console.error('Erro ao cadastrar empréstimo:', error);
+        alert('Erro ao cadastrar empréstimo. Por favor, tente novamente.');
+      });
   });
+});
