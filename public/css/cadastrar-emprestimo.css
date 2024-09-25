@@ -1,0 +1,59 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de cadastro de empréstimo */
+#form-cadastrar-emprestimo {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#form-cadastrar-emprestimo .input-group {
+    margin-bottom: 1.5rem;
+}
+
+#form-cadastrar-emprestimo label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #eee;
+}
+
+#form-cadastrar-emprestimo input[type="number"],
+#form-cadastrar-emprestimo input[type="date"],
+#form-cadastrar-emprestimo select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111;
+    color: #eee;
+}
+
+#form-cadastrar-emprestimo input:focus,
+#form-cadastrar-emprestimo select:focus {
+    outline: none;
+    border-color: #00b894;
+}
+
+#form-cadastrar-emprestimo button[type="submit"] {
+    background-color: #00b894;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#form-cadastrar-emprestimo button[type="submit"]:hover {
+    background-color: #009688;
+}
+
+/* Estilos para o aviso do valor total */
+.aviso {
+    background-color: #f39c12; /* Amarelo */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    display: none; /* Oculta o aviso inicialmente */
+}

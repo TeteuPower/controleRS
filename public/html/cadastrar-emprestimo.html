@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Empréstimo - Sistema de Empréstimos</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/cadastrar-emprestimo.css">
+</head>
+<body>
+    <div id="cabecalho"></div>
+    <div class="container">
+        <h1>Cadastrar Novo Empréstimo</h1>
+        <form id="form-cadastrar-emprestimo">
+            <div class="input-group">
+                <label for="cliente">Cliente:</label>
+                <select id="cliente" name="cliente" required>
+                    <option value="">Selecione um cliente</option> 
+                    </select>
+            </div>
+            <div class="input-group">
+                <label for="valor">Valor do Empréstimo (R$):</label>
+                <input type="number" id="valor" name="valor" step="0.01" required>
+            </div>
+            <div class="input-group">
+                <label for="juros">Taxa de Juros (%):</label>
+                <input type="number" id="juros" name="juros" step="0.01" required>
+            </div>
+            <div class="input-group">
+                <label for="data">Data de Início:</label>
+                <input type="date" id="data" name="data" required>
+            </div>
+            <div class="input-group">
+                <label for="tipo">Tipo de Empréstimo:</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="">Selecione o tipo</option>
+                    <option value="mensal">Mensal</option>
+                    <option value="diario">Diário</option>
+                </select>
+            </div>
+            <div id="aviso-valor-total" class="aviso">
+                </div>
+            <button type="submit">Cadastrar Empréstimo</button>
+        </form>
+    </div>
+
+    <script src="../js/funcoes.js"></script>
+    <script src="../js/cadastrar-emprestimo.js"></script>
+</body>
+</html>
