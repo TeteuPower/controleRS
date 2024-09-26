@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
       emprestimosFiltrados.forEach((emprestimo) => {
         if (emprestimo.status === 'ativo' || emprestimo.status === 'atrasado' || emprestimo.status === 'aguardando') {
-          console.log(emprestimo)
+          //console.log(emprestimo)
           const emprestimoItem = document.createElement('div');
           emprestimoItem.classList.add('emprestimo-item');
           emprestimoItem.classList.add(emprestimo.status);

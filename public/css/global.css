@@ -183,7 +183,6 @@ body {
     background-color: #e74c3c; /* Vermelho mais escuro ao passar o mouse */
   }
 
-  /* ... outros estilos ... */
 
 /* Estilos para Modais */
 .modal {
@@ -195,22 +194,23 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto; /* Permite rolagem se o conteúdo for maior que a tela */
-    background-color: rgba(0, 0, 0, 0.4); /* Fundo escurecido */
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo escurecido */
   }
   
   .modal-content {
-    background-color: #050044;
+    background-color: #222; /* Cor de fundo do modal */
     margin: 15% auto; /* Centraliza o modal na tela */
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid #555;
     width: 80%; /* Largura do modal */
     max-width: 500px; /* Largura máxima do modal */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Sombra */
     border-radius: 5px; /* Borda arredondada */
+    color: #eee; /* Cor do texto */
   }
   
   .close {
-    color: #aaa;
+    color: #eee; /* Cor do botão "Fechar" */
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -219,16 +219,16 @@ body {
   
   .close:hover,
   .close:focus {
-    color: black;
+    color: #fff; /* Cor do botão "Fechar" em foco */
     text-decoration: none;
     cursor: pointer;
   }
   
   .modal-header {
     padding: 10px 16px;
-    background-color: #5cb85c; /* Cor de fundo do cabeçalho */
-    color: white; /* Cor do texto do cabeçalho */
-    border-bottom: 1px solid #ddd; /* Borda inferior */
+    background-color: #333; /* Cor de fundo do cabeçalho */
+    color: #eee; /* Cor do texto do cabeçalho */
+    border-bottom: 1px solid #555; /* Borda inferior */
     border-top-left-radius: 5px; /* Borda arredondada superior esquerda */
     border-top-right-radius: 5px; /* Borda arredondada superior direita */
   }
@@ -239,8 +239,8 @@ body {
   
   .modal-footer {
     padding: 10px 16px;
-    background-color: #f0f0f0; /* Cor de fundo do rodapé */
-    border-top: 1px solid #ddd; /* Borda superior */
+    background-color: #333; /* Cor de fundo do rodapé */
+    border-top: 1px solid #555; /* Borda superior */
     border-bottom-left-radius: 5px; /* Borda arredondada inferior esquerda */
     border-bottom-right-radius: 5px; /* Borda arredondada inferior direita */
   }

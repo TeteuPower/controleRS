@@ -89,8 +89,8 @@ async function verificarPagamentos() {
             console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'ativo'.`);
           }
         }
-      }return
-      // 1. Obter todos os empréstimos diários ativos
+      }return;
+      // 1. Obter todos os empréstimos mensais ativos
       const sqlMensais = `
         SELECT 
           id, 
