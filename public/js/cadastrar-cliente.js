@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
     const formCadastrarCliente = document.getElementById('form-cadastrar-cliente');
   
     if (formCadastrarCliente) {

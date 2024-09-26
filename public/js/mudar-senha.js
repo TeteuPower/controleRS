@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
     const formMudarSenha = document.getElementById('form-mudar-senha');
   
     if (formMudarSenha) {

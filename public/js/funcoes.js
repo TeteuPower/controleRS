@@ -88,3 +88,50 @@ function buscarClientes(idSelect) {
         alert('Erro ao buscar clientes. Por favor, tente novamente.');
       });
 }
+function verificarAutenticacao() {
+  const token = localStorage.getItem('token');
+
+  // Verifica se estamos na página de login
+  const isLoginPage = window.location.pathname === '/html/index.html' || window.location.pathname === '/';
+
+  if (isLoginPage) {
+      // Se estiver na página de login, exibe o conteúdo
+      document.body.classList.add('visivel');
+      return Promise.resolve(true); // Retorna uma promessa resolvida para evitar erros nas páginas protegidas
+  }
+
+  if (!token) {
+      // Redireciona para a página de login se não houver token
+      alert('Você deve fazer o Login primeiro');
+      window.location.href = '/';
+      return Promise.reject(false); // Retorna uma promessa rejeitada para evitar erros nas páginas protegidas
+  }
+
+  // Função para verificar a validade do token
+  function verificarToken() {
+      fetch('/api/verificar-token', {
+          headers: {
+              'Authorization': token
+          }
+      })
+      .then(response => {
+          if (!response.ok) {
+              alert('Token de segurança vencido, faça o login novamente');
+              window.location.href = '/';
+          }
+      })
+      .catch(error => {
+          console.error('Erro ao verificar o token:', error);
+      });
+  }
+
+  // Verifica a validade do token imediatamente
+  verificarToken();
+
+  // Verifica a validade do token a cada 10 segundos (10000 milissegundos)
+  setInterval(verificarToken, 300000);
+
+  // Adiciona a classe 'visivel' ao body para exibir o conteúdo
+  document.body.classList.add('visivel');
+  return Promise.resolve(true);
+}

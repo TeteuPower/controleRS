@@ -78,6 +78,7 @@ async function verificarPagamentos() {
       const valorTotal = emprestimo.valor_total;
       const taxaJuros = emprestimo.taxa_juros;
       const diasJuros = emprestimo.numero_dias;
+      const valorTotalComJuros = (valorTotal * ((taxaJuros/100) + 1));
       const parcelaDiaria = (valorTotal * ((taxaJuros/100) + 1) ) / diasJuros; // Calcula a parcela diária
       const totalDeveriaEstarPago = parcelaDiaria * diasDecorridos; // Calcula o valor do pagamento diário
 
@@ -94,24 +95,31 @@ async function verificarPagamentos() {
 
       //console.log(dataInicio, dataAtual, diasDecorridos)
       //console.log(emprestimo);
-      console.log('Parcelas restantes:', parcelas);
+      console.log('Parcela:', parcelas);
 
-      // 5. Verificar o status do empréstimo
-      if (parcelas < -1) {
-        // Atualizar o status para 'atrasado'
+      //// 5. Atualizar o status do empréstimo
+      if(parseFloat(totalEstaPago) === parseFloat(valorTotalComJuros)) {
+        // Atualizar o status para 'pago'
         const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
-        await db.promise().query(sqlAtualiza, ['atrasado', emprestimo.id]);
-        console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'atrasado'.`);
-      } else if (parcelas === -1) {
-        // Atualizar o status para 'aguardando'
-        const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
-        await db.promise().query(sqlAtualiza, ['aguardando', emprestimo.id]);
-        console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'aguardando'.`);
-      } else if (parcelas >= 0) {
-        // Atualizar o status para 'ativo'
-        const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
-        await db.promise().query(sqlAtualiza, ['ativo', emprestimo.id]);
-        console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'ativo'.`);
+        await db.promise().query(sqlAtualiza, ['quitado', emprestimo.id]);
+        console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'quitado'.`);
+      } else {
+        if (parcelas < -1) {
+          // Atualizar o status para 'atrasado'
+          const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
+          await db.promise().query(sqlAtualiza, ['atrasado', emprestimo.id]);
+          console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'atrasado'.`);
+        } else if (parcelas === -1) {
+          // Atualizar o status para 'aguardando'
+          const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
+          await db.promise().query(sqlAtualiza, ['aguardando', emprestimo.id]);
+          console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'aguardando'.`);
+        } else if (parcelas >= 0) {
+          // Atualizar o status para 'ativo'
+          const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
+          await db.promise().query(sqlAtualiza, ['ativo', emprestimo.id]);
+          console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'ativo'.`);
+        }
       }
     }
 

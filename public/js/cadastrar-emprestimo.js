@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
   const formCadastrarEmprestimo = document.getElementById('form-cadastrar-emprestimo');
   const selectCliente = document.getElementById('cliente');
   const selectTipoEmprestimo = document.getElementById('tipo-emprestimo');

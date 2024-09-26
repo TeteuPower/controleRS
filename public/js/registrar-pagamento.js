@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
     const selectCliente = document.getElementById('cliente');
     const emprestimosContainer = document.getElementById('emprestimos-container');
     const modalPagamento = document.getElementById('modal-pagamento'); // Modal para registrar pagamento
@@ -81,10 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
               //console.log(parcelasRestantes);
               abrirModalParcelas(emprestimo.id, parcelasRestantes)
               btnConfirmarPagamento.addEventListener('click', () => {
-                console.log ('aaaaaaaaaaa')
-                inputValorPago.value = (inputParcelas.value * parcelaDiaria);
-                modalParcelas.style.display = 'none';
-                modalPagamento.style.display = 'block';
+                if (inputParcelas.value>parcelasRestantes) {
+                  alert(`Esse empréstimo tem apenas ${parcelasRestantes} parcelas restantes. Por favor, escolha um valor menor!`);
+                  return;
+                } else {
+                  console.log ('aaaaaaaaaaa')
+                  inputValorPago.value = (inputParcelas.value * parcelaDiaria);
+                  modalParcelas.style.display = 'none';
+                  modalPagamento.style.display = 'block';
+                }
               });
             });
   

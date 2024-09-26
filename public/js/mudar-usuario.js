@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
     const formMudarUsuario = document.getElementById('form-mudar-usuario');
     const inputUsuarioAtual = document.getElementById('usuario-atual'); 
   
