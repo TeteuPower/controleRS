@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Empréstimos</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+    <div id="cabecalho"></div>
+    <div class="container">
+        <h1>Dashboard do Vendedor</h1>
+
+        <div class="dashboard-section">
+            <h2>Empréstimos Diários</h2>
+            <div class="filter-container">
+                <label for="filtro-diarios">Filtrar por Status:</label>
+                <select id="filtro-diarios">
+                    <option value="">Todos</option>
+                    <option value="atrasado">Atrasados</option>
+                    <option value="aguardando">Aguardando</option>
+                    <option value="ativo">Ativos</option>
+                </select>
+            </div>
+            <div id="emprestimos-diarios-container">
+                <!-- Empréstimos diários serão listados aqui -->
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>Empréstimos Mensais</h2>
+            <div class="filter-container">
+                <label for="filtro-mensais">Filtrar por Status:</label>
+                <select id="filtro-mensais">
+                    <option value="">Todos</option>
+                    <option value="atrasado">Atrasados</option>
+                    <option value="aguardando">Aguardando</option>
+                    <option value="ativo">Ativos</option>
+                </select>
+            </div>
+            <div id="emprestimos-mensais-container">
+                <!-- Empréstimos mensais serão listados aqui -->
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>Ações</h2>
+            <ul>
+                <li><a href="cadastrar-cliente.html">Cadastrar Novo Cliente</a></li>
+                <li><a href="cadastrar-emprestimo.html">Cadastrar Novo Empréstimo</a></li>
+                <li><a href="registrar-pagamento.html">Registrar Pagamento</a></li>
+                <li><a href="mudar-senha.html">Mudar Senha</a></li>
+                <li><a href="mudar-usuario.html">Mudar Usuário</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../js/funcoes.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de dashboard */
+.dashboard-section {
+    margin-bottom: 20px;
+}
+
+.dashboard-section h2 {
+    color: #00b894; /* Cor de destaque para os títulos */
+}
+
+.emprestimo-item {
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.emprestimo-item.ativo {
+    border-left: 5px solid green; /* Verde para empréstimos ativos */
+}
+
+.emprestimo-item.atrasado {
+    border-left: 5px solid red; /* Vermelho para empréstimos atrasados */
+}
+
+.emprestimo-item.aguardando {
+    border-left: 5px solid yellow; /* Amarelo para empréstimos aguardando pagamento */
+}
+
+.emprestimo-item .info {
+    flex: 1;
+}
+
+.emprestimo-item .status {
+    font-weight: bold;
+}
+
+.filter-container {
+    margin-bottom: 10px;
+}
+
+.filter-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eee;
+}
+
+.filter-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111;
+    color: #eee;
+}
+
+.dashboard-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-section li {
+    margin-bottom: 10px;
+}
+
+.dashboard-section li a {
+    text-decoration: none;
+    color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-section li a:hover {
+    background-color: #555;
+}

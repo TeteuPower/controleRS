@@ -95,7 +95,7 @@ async function verificarPagamentos() {
 
       //console.log(dataInicio, dataAtual, diasDecorridos)
       //console.log(emprestimo);
-      console.log('Parcela:', parcelas);
+      //console.log('Parcela:', parcelas);
 
       //// 5. Atualizar o status do empréstimo
       if(parseFloat(totalEstaPago) === parseFloat(valorTotalComJuros)) {
@@ -119,6 +119,67 @@ async function verificarPagamentos() {
           const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
           await db.promise().query(sqlAtualiza, ['ativo', emprestimo.id]);
           console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'ativo'.`);
+        }
+      }
+    }return
+    // 1. Obter todos os empréstimos diários ativos
+    const sqlMensais = `
+      SELECT 
+        id, 
+        id_cliente, 
+        data_inicio,  
+        valor_total, 
+        taxa_juros,
+        status 
+      FROM 
+        emprestimos_mensais 
+      WHERE 
+        status = 'ativo' OR status = 'aguardando' OR status = 'atrasado'
+    `;
+
+    const [emprestimosMensais] = await db.promise().query(sqlMensais);
+    // 2. Iterar sobre cada empréstimo diário
+    for (const emprestimo of emprestimosMensais) {
+      // 3. Verificar se o empréstimo está em dia ou atrasado
+      const dataInicio = new Date(emprestimo.data_inicio); // Manter a data de início original
+      const dataAtual = new Date();
+      const diaDoMesAtual = dataAtual.getDate(); // Obter o dia do mês atual
+      const diaDoMesInicio = dataInicio.getDate(); // Obter o dia do mês de início do empréstimo
+      const mesAtual = dataAtual.getMonth() + 1; // Obter o mês atual
+      const mesDoInicio = dataInicio.getMonth() + 1; // Obter o mês de início do empréstimo
+
+      console.log(diaDoMesInicio, diaDoMes); return
+
+      // 4. Verificar se é o dia do pagamento
+      if (diaDoMesAtual === diaDoMesInicio) {
+        // 5. Consultar o valor total pago para o empréstimo
+        const sqlPagamentos = `
+          SELECT SUM(valor_pago) AS total_pago
+          FROM pagamentos_mensais
+          WHERE id_emprestimo = ?
+        `;
+        const [saldoEmprestimo] = await db.promise().query(sqlPagamentos, [emprestimo.id]);
+        const totalEstaPago = saldoEmprestimo[0].total_pago || 0; // Obter o valor total pago
+
+        const valorTotalComJuros = (emprestimo.valor_total * ((emprestimo.taxa_juros/100) + 1));
+        const parcelaMensal = (emprestimo.valor_total * ((emprestimo.taxa_juros/100) + 1)); // Calcula a parcela mensal
+
+        // 6. Verificar o status do empréstimo
+        if (totalEstaPago >= valorTotalComJuros) {
+          // Atualizar o status para 'quitado'
+          const sqlAtualiza = 'UPDATE emprestimos_mensais SET status = ? WHERE id = ?';
+          await db.promise().query(sqlAtualiza, ['quitado', emprestimo.id]);
+          console.log(`Empréstimo mensal ID:${emprestimo.id} atualizado para 'quitado'.`);
+        } else if (totalEstaPago < valorTotalComJuros && dataAtual.getDate() === diaDoMesInicio) {
+          // Atualizar o status para 'aguardando'
+          const sqlAtualiza = 'UPDATE emprestimos_mensais SET status = ? WHERE id = ?';
+          await db.promise().query(sqlAtualiza, ['aguardando', emprestimo.id]);
+          console.log(`Empréstimo mensal ID:${emprestimo.id} atualizado para 'aguardando'.`);
+        } else if (totalEstaPago < valorTotalComJuros && dataAtual.getDate() > diaDoMesInicio) {
+          // Atualizar o status para 'atrasado'
+          const sqlAtualiza = 'UPDATE emprestimos_mensais SET status = ? WHERE id = ?';
+          await db.promise().query(sqlAtualiza, ['atrasado', emprestimo.id]);
+          console.log(`Empréstimo mensal ID:${emprestimo.id} atualizado para 'atrasado'.`);
         }
       }
     }
