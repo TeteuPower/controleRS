@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
     const emprestimosAtivos = document.getElementById('emprestimos-ativos');
     const valorTotalInvestido = document.getElementById('valor-total-investido');
     const lucroDiario = document.getElementById('lucro-diario');

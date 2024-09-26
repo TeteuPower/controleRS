@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
     const pagamentosContainer = document.getElementById('pagamentos-container');
     const paginacaoContainer = document.getElementById('paginacao-container');
     let paginaAtual = 1;

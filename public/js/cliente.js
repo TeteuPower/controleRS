@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
     const idCliente = window.location.pathname.split('/').pop(); // Obter ID do cliente da URL
     const nomeCliente = document.getElementById('nome-cliente');
     const nome = document.getElementById('nome');

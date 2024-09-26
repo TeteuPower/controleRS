@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  verificarAutenticacao();
     const emprestimosDiariosContainer = document.getElementById('emprestimos-diarios-container');
     const emprestimosMensaisContainer = document.getElementById('emprestimos-mensais-container');
     const filtroDiarios = document.getElementById('filtro-diarios');
