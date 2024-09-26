@@ -1,0 +1,109 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de registrar pagamento */
+#emprestimos-container {
+    margin-top: 20px;
+}
+
+.emprestimo-item {
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #eee;
+}
+
+.emprestimo-item.ativo {
+    border-left: 5px solid green; /* Verde para empréstimos ativos */
+}
+
+.emprestimo-item.atrasado {
+    border-left: 5px solid red; /* Vermelho para empréstimos atrasados */
+}
+
+.emprestimo-item.aguardando {
+    border-left: 5px solid yellow; /* Amarelo para empréstimos aguardando pagamento */
+}
+
+#form-pagamento {
+    margin-top: 20px;
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+#form-pagamento .input-group {
+    margin-bottom: 1rem;
+}
+
+#form-pagamento label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #eee;
+}
+
+#form-pagamento input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111;
+    color: #eee;
+}
+
+#form-pagamento input:focus {
+    outline: none;
+    border-color: #00b894;
+}
+
+#form-pagamento button[type="submit"] {
+    background-color: #00b894;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#form-pagamento button[type="submit"]:hover {
+    background-color: #009688;
+}
+
+/* ... (estilos anteriores) ... */
+
+/* Estilos para os modais */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; 
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }

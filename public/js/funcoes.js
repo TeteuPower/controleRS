@@ -52,3 +52,39 @@ function carregarHeader() {
     });
         });
 }
+
+// Função para buscar clientes e preencher um select
+function buscarClientes(idSelect) {
+    const select = document.getElementById(idSelect);
+  
+    if (!select) {
+      console.error(`Elemento select com ID '${idSelect}' não encontrado.`);
+      return;
+    }
+  
+    fetch('/clientes-vendedor', {
+      headers: {
+        'Authorization': localStorage.getItem('token'),
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erro ao buscar clientes.');
+        }
+        return response.json();
+      })
+      .then((clientes) => {
+        select.innerHTML = '<option value="">Selecione o cliente</option>'; // Limpa as opções existentes
+  
+        clientes.forEach((cliente) => {
+          const option = document.createElement('option');
+          option.value = cliente.id;
+          option.text = cliente.nome;
+          select.add(option);
+        });
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar clientes:', error);
+        alert('Erro ao buscar clientes. Por favor, tente novamente.');
+      });
+}

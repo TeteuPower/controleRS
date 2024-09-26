@@ -6,6 +6,7 @@ const autenticar = require('../middleware/auth'); // Importe o middleware de aut
 router.post('/', autenticar, (req, res) => {
   const { id_cliente, valor, juros, data_inicio, tipo_emprestimo, dias } = req.body;
   const idVendedor = req.usuario.id; // Obtém o ID do vendedor do token JWT
+  const status = 'ativo';
 
   try {
     // 1. Validações (adicione mais validações conforme necessário)
@@ -22,13 +23,13 @@ router.post('/', autenticar, (req, res) => {
     let values;
 
     if (tipo_emprestimo === 'mensal') {
-      sql = `INSERT INTO emprestimos_mensais (id_cliente, valor_total, taxa_juros, data_inicio) 
-             VALUES (?, ?, ?, ?)`;
-      values = [id_cliente, valor, juros, data_inicio];
-    } else if (tipo_emprestimo === 'diario') {
-      sql = `INSERT INTO emprestimos_diarios (id_cliente, valor_total, taxa_juros, data_inicio, numero_dias) 
+      sql = `INSERT INTO emprestimos_mensais (id_cliente, valor_total, taxa_juros, data_inicio, status) 
              VALUES (?, ?, ?, ?, ?)`;
-      values = [id_cliente, valor, juros, data_inicio, dias];
+      values = [id_cliente, valor, juros, data_inicio, status];
+    } else if (tipo_emprestimo === 'diario') {
+      sql = `INSERT INTO emprestimos_diarios (id_cliente, valor_total, taxa_juros, data_inicio, numero_dias, status) 
+             VALUES (?, ?, ?, ?, ?, ?)`;
+      values = [id_cliente, valor, juros, data_inicio, dias, status];
     } else {
       return res.status(400).json({ error: 'Tipo de empréstimo inválido.' });
     }

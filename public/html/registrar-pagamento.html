@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Pagamento - Sistema de Empréstimos</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/registrar-pagamento.css">
+</head>
+<body>
+    <div id="cabecalho"></div>
+    <div class="container">
+        <h1>Registrar Pagamento</h1>
+        <div class="input-group">
+            <label for="cliente">Cliente:</label>
+            <select id="cliente" name="cliente" required>
+                <option value="">Selecione o cliente</option>
+            </select>
+        </div>
+        <div id="emprestimos-container">
+            <!-- Empréstimos do cliente serão listados aqui -->
+        </div>
+
+        <!-- Modal para escolher o número de parcelas -->
+        <div id="modal-parcelas" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="modalParcelas.style.display='none'">×</span>
+                <h2>Quantas Parcelas?</h2>
+                <input type="hidden" id="id-emprestimo" name="id-emprestimo">
+                <input type="number" id="parcelas" name="parcelas" min="1" required>
+                <button id="btn-confirmar-pagamento">Confirmar</button>
+            </div>
+        </div>
+
+        <!-- Modal para confirmar o pagamento -->
+        <div id="modal-pagamento" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="modalPagamento.style.display='none'">×</span>
+                <h2>Confirmar Pagamento</h2>
+                <input type="hidden" id="id-emprestimo" name="id-emprestimo">
+                <div class="input-group">
+                    <label for="valor-pago">Valor Pago (R$):</label>
+                    <input type="number" id="valor-pago" name="valor-pago" readonly>
+                </div>
+                <button id="btn-registrar-pagamento">Registrar Pagamento</button> 
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/funcoes.js"></script>
+    <script src="../js/registrar-pagamento.js"></script>
+</body>
+</html>

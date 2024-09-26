@@ -1,0 +1,127 @@
+const express = require('express');
+const router = express.Router();
+const db = require('../db'); // Importe a conexão com o banco de dados
+const autenticar = require('../middleware/auth'); // Importe o middleware de autenticação
+const cron = require('node-cron'); // Importe a biblioteca node-cron
+verificarPagamentos();  // Chame a função para verificar os pagamentos
+
+router.post('/diario', autenticar, (req, res) => {
+  const { id_emprestimo, valor_pagamento } = req.body;
+
+  try {
+    // 1. Validações (adicione mais validações conforme necessário)
+    if (!id_emprestimo || !valor_pagamento) {
+      return res.status(400).json({ error: 'Preencha todos os campos obrigatórios.' });
+    }
+
+    // 2. Inserir o pagamento na tabela `pagamentos`
+    const sql = 'INSERT INTO pagamentos_diarios (id_emprestimo, data_pagamento, valor_pago) VALUES (?, CURDATE(), ?)';
+    const values = [id_emprestimo, valor_pagamento];
+
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Erro ao registrar pagamento:', err);
+        return res.status(500).json({ error: 'Erro ao registrar pagamento.' });
+      }
+
+      console.log('Pagamento registrado com sucesso!');
+      return res.status(201).json({ message: 'Pagamento registrado com sucesso!' });
+    });
+  } catch (error) {
+    console.error('Erro ao registrar pagamento:', error);
+    return res.status(500).json({ error: 'Erro ao registrar pagamento.' });
+  }
+  verificarPagamentos();
+});
+
+// Função para verificar os pagamentos
+async function verificarPagamentos() {
+  try {
+    // 1. Obter todos os empréstimos diários ativos
+    const sqlDiarios = `
+      SELECT 
+        id, 
+        id_cliente, 
+        data_inicio, 
+        numero_dias, 
+        valor_total, 
+        taxa_juros,
+        status 
+      FROM 
+        emprestimos_diarios 
+      WHERE 
+        status = 'ativo' OR status = 'aguardando' OR status = 'atrasado'
+    `;
+
+    const [emprestimosDiarios] = await db.promise().query(sqlDiarios);
+
+    // 2. Iterar sobre cada empréstimo diário
+    for (const emprestimo of emprestimosDiarios) {
+      // 3. Verificar se o empréstimo está em dia ou atrasado
+      const dataInicio = new Date(emprestimo.data_inicio); // Manter a data de início original
+      const dataAtual = new Date();
+      let diasDecorridos = 0;
+
+      // Iterar sobre os dias entre a data de início e a data atual
+      for (let data = new Date(dataInicio); data <= dataAtual; data.setDate(data.getDate() + 1)) {
+        const diaSemana = data.getDay(); // 0 (Domingo) - 6 (Sábado)
+        if (diaSemana !== 0) { // Se não for domingo
+          // Verificar se a data é feriado
+          const sqlFeriado = 'SELECT 1 FROM feriados WHERE data = ?';
+          const [feriado] = await db.promise().query(sqlFeriado, [data.toISOString().slice(0, 10)]); // Converter data para formato YYYY-MM-DD
+          if (feriado.length === 0) { // Se não for feriado
+            diasDecorridos++;
+          }
+        }
+      }
+
+      const valorTotal = emprestimo.valor_total;
+      const taxaJuros = emprestimo.taxa_juros;
+      const diasJuros = emprestimo.numero_dias;
+      const parcelaDiaria = (valorTotal * ((taxaJuros/100) + 1) ) / diasJuros; // Calcula a parcela diária
+      const totalDeveriaEstarPago = parcelaDiaria * diasDecorridos; // Calcula o valor do pagamento diário
+
+      // 4. Consultar o valor total pago para o empréstimo
+      const sqlPagamentos = `
+        SELECT SUM(valor_pago) AS total_pago
+        FROM pagamentos_diarios
+        WHERE id_emprestimo = ?
+      `;
+      const [saldoEmprestimo] = await db.promise().query(sqlPagamentos, [emprestimo.id]);
+      const totalEstaPago = saldoEmprestimo[0].total_pago || 0; // Obter o valor total pago
+
+      const parcelas = (totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria; // Calcula o valor das parcelas restantes
+
+      //console.log(dataInicio, dataAtual, diasDecorridos)
+      //console.log(emprestimo);
+      console.log('Parcelas restantes:', parcelas);
+
+      // 5. Verificar o status do empréstimo
+      if (parcelas < -1) {
+        // Atualizar o status para 'atrasado'
+        const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
+        await db.promise().query(sqlAtualiza, ['atrasado', emprestimo.id]);
+        console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'atrasado'.`);
+      } else if (parcelas === -1) {
+        // Atualizar o status para 'aguardando'
+        const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
+        await db.promise().query(sqlAtualiza, ['aguardando', emprestimo.id]);
+        console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'aguardando'.`);
+      } else if (parcelas >= 0) {
+        // Atualizar o status para 'ativo'
+        const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
+        await db.promise().query(sqlAtualiza, ['ativo', emprestimo.id]);
+        console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'ativo'.`);
+      }
+    }
+
+    console.log('Verificação de pagamentos diários concluída.');
+  } catch (error) {
+    console.error('Erro ao verificar pagamentos diários:', error);
+  }
+}
+
+// Agendar a função para executar todos os dias às 00:01
+cron.schedule('0 1 * * *', verificarPagamentos);
+
+module.exports = router;

@@ -57,6 +57,10 @@ app.use('/mudar-usuario', autenticar, require('./routes/mudar-usuario'));
 app.use('/cadastrar-emprestimo', autenticar, require('./routes/cadastrar-emprestimo'));
 // Rota para obter os clientes do vendedor
 app.use('/clientes-vendedor', autenticar, require('./routes/clientes-vendedor'));
+// Rota para obter os empréstimos do cliente
+app.use('/emprestimos-cliente', autenticar, require('./routes/emprestimos-cliente'));
+// Rota para registrar novo pagamento
+app.use('/registrar-pagamento', autenticar, require('./routes/registrar-pagamento'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {

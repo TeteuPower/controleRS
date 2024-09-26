@@ -4,33 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectTipoEmprestimo = document.getElementById('tipo-emprestimo');
   const campoDias = document.getElementById('campo-dias');
   const parcelaInfo = document.getElementById('parcela-info');
-
-  // Função para buscar os clientes do vendedor
-  function buscarClientes() {
-    fetch('/clientes-vendedor', {
-      headers: {
-        'Authorization': localStorage.getItem('token'), // Adiciona o token no header
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro ao buscar clientes.');
-        }
-        return response.json();
-      })
-      .then((clientes) => {
-        clientes.forEach((cliente) => {
-          const option = document.createElement('option');
-          option.value = cliente.id;
-          option.text = cliente.nome;
-          selectCliente.add(option);
-        });
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar clientes:', error);
-        alert('Erro ao buscar clientes. Por favor, tente novamente.');
-      });
-  }
+  buscarClientes('cliente');
+    // Adicionar ouvintes de eventos
+    selectTipoEmprestimo.addEventListener('change', mostrarCampoDias);
+    formCadastrarEmprestimo.addEventListener('input', calcularParcela); // Calcula a parcela ao alterar os valores
 
   // Função para mostrar/ocultar o campo "Número de Dias"
   function mostrarCampoDias() {
@@ -67,12 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Chamar a função para buscar os clientes ao carregar a página
-  buscarClientes();
-
-  // Adicionar ouvintes de eventos
-  selectTipoEmprestimo.addEventListener('change', mostrarCampoDias);
-  formCadastrarEmprestimo.addEventListener('input', calcularParcela); // Calcula a parcela ao alterar os valores
 
   // Manipular o envio do formulário
   formCadastrarEmprestimo.addEventListener('submit', (event) => {
