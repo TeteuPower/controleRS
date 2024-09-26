@@ -1,0 +1,51 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de histórico de pagamentos */
+#pagamentos-container {
+    margin-top: 20px;
+}
+
+.pagamento-item {
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagamento-item .info {
+    flex: 1;
+}
+
+.pagamento-item .data {
+    font-weight: bold;
+}
+
+#paginacao-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagina-item {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111;
+    color: #eee;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagina-item.ativo {
+    background-color: #555;
+}
+
+.pagina-item:hover {
+    background-color: #555;
+}
