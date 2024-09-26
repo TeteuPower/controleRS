@@ -1,0 +1,25 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de créditos */
+.creditos-section {
+    margin-bottom: 30px;
+}
+
+.creditos-section h2 {
+    color: #00b894; /* Cor de destaque para os títulos */
+}
+
+.creditos-section p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.creditos-section a {
+    color: #00b894; /* Cor de destaque para links */
+    text-decoration: none;
+}
+
+.creditos-section a:hover {
+    text-decoration: underline;
+}
