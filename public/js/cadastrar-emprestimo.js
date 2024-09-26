@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  alert('A lógica que verifica os empréstimos mensais ainda não está pronta, aguarde o lançamento')
   verificarAutenticacao();
   const formCadastrarEmprestimo = document.getElementById('form-cadastrar-emprestimo');
   const selectCliente = document.getElementById('cliente');

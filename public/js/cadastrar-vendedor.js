@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   verificarAutenticacao();
+  let ijst = 'adm123';
+  // Verificar se a senha está correta
+  const senhaDigitada = prompt('Digite a senha para acessar a página de cadastro de vendedor:');
+
+  if (senhaDigitada === ijst) {
     const formCadastrarVendedor = document.getElementById('form-cadastrar-vendedor');
   
     if (formCadastrarVendedor) {
@@ -52,4 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
           });
       });
     }
-  });
+  } else {
+    alert('Senha inválida! Para cadastrar um vendedor contacte o Administrador!');
+    window.location.href = '/html/dashboard.html';
+  };
+})
