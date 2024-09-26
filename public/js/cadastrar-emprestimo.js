@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data_inicio = document.getElementById('data-inicio').value;
     const tipo_emprestimo = selectTipoEmprestimo.value;
     const dias = document.getElementById('dias').value;
+    const vendedor_id = localStorage.getItem('vendedor_id');
 
     // Criar objeto com os dados do empréstimo
     const novoEmprestimo = {
@@ -66,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       data_inicio: data_inicio,
       tipo_emprestimo: tipo_emprestimo,
       dias: dias, // Inclui o número de dias, mesmo que seja vazio para empréstimos mensais
+      vendedor_id: vendedor_id, // Adiciona o ID do vendedor ao empréstimo
     };
     console.log(novoEmprestimo);
     // Fazer requisição POST para a API
