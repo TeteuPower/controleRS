@@ -8,39 +8,45 @@ router.get('/:idCliente', autenticar, (req, res) => {
   const idVendedor = req.usuario.id; // Obtém o ID do vendedor do token JWT
 
   // 1. Obter empréstimos mensais
-  const sqlMensais = `
+    const sqlMensais = `
     SELECT 
-      id, 
-      valor_total, 
-      taxa_juros, 
-      data_inicio, 
-      data_termino, 
-      valor_pago,
-      tipo,
-      status 
+      em.id, 
+      em.valor_total, 
+      em.taxa_juros, 
+      em.data_inicio, 
+      em.tipo,
+      em.data_termino, 
+      em.valor_pago,
+      em.status,
+      c.nome AS nome_cliente
     FROM 
-      emprestimos_mensais 
+      emprestimos_mensais em
+    JOIN 
+      clientes c ON em.id_cliente = c.id
     WHERE 
-      id_cliente = ? 
-      AND status IN ('ativo', 'atrasado', 'aguardando')
+      em.id_cliente = ? 
+      AND em.status IN ('ativo', 'atrasado', 'aguardando')
   `;
 
   // 2. Obter empréstimos diários
-  const sqlDiarios = `
+    const sqlDiarios = `
     SELECT 
-      id, 
-      valor_total, 
-      taxa_juros, 
-      data_inicio, 
-      valor_pago,
-      numero_dias, 
-      tipo,
-      status 
+      ed.id, 
+      ed.valor_total, 
+      ed.taxa_juros, 
+      ed.data_inicio, 
+      ed.tipo,
+      ed.valor_pago,
+      ed.numero_dias, 
+      ed.status,
+      c.nome AS nome_cliente
     FROM 
-      emprestimos_diarios 
+      emprestimos_diarios ed
+    JOIN 
+      clientes c ON ed.id_cliente = c.id
     WHERE 
-      id_cliente = ? 
-      AND status IN ('ativo', 'atrasado', 'aguardando')
+      ed.id_cliente = ? 
+      AND ed.status IN ('ativo', 'atrasado', 'aguardando')
   `;
 
   // Executar as consultas em paralelo

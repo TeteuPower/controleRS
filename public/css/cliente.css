@@ -1,0 +1,112 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de informações do cliente */
+#nome-cliente {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #00b894; /* Cor de destaque para o nome */
+}
+
+.cliente-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.info-item {
+    width: 48%;
+    margin-bottom: 10px;
+}
+
+.info-item strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.info-item span {
+    font-weight: bold;
+}
+
+.dashboard-section {
+    margin-bottom: 20px;
+}
+
+.dashboard-section h2 {
+    color: #00b894; /* Cor de destaque para os títulos */
+}
+
+.emprestimos-container {
+    margin-top: 20px;
+}
+
+.emprestimos-container h3 {
+    color: #00b894; /* Cor de destaque para os títulos */
+    margin-bottom: 10px;
+}
+
+.emprestimos-container .emprestimo-item {
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.emprestimos-container .emprestimo-item.ativo {
+    border-left: 5px solid green; /* Verde para empréstimos ativos */
+}
+
+.emprestimos-container .emprestimo-item.atrasado {
+    border-left: 5px solid red; /* Vermelho para empréstimos atrasados */
+}
+
+.emprestimos-container .emprestimo-item.aguardando {
+    border-left: 5px solid yellow; /* Amarelo para empréstimos aguardando pagamento */
+}
+
+.emprestimos-container .emprestimo-item .info {
+    flex: 1;
+}
+
+.emprestimos-container .emprestimo-item .status {
+    font-weight: bold;
+}
+
+.filter-container {
+    margin-bottom: 10px;
+}
+
+.filter-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eee;
+}
+
+.filter-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111;
+    color: #eee;
+}
+
+#btn-alterar-dados {
+    margin-top: 20px;
+    background-color: #00b894;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#btn-alterar-dados:hover {
+    background-color: #009688;
+}

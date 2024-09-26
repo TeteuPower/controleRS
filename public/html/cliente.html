@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações do Cliente - Sistema de Empréstimos</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/cliente.css">
+</head>
+<body>
+    <div id="cabecalho"></div>
+    <div class="container">
+        <h1 id="nome-cliente"></h1>
+
+        <div class="cliente-info">
+            <div class="info-item">
+                <strong>Nome:</strong> <span id="nome"></span>
+            </div>
+            <div class="info-item">
+                <strong>Endereço:</strong> <span id="endereco"></span>
+            </div>
+            <div class="info-item">
+                <strong>Telefone:</strong> <span id="telefone"></span>
+            </div>
+            <div class="info-item">
+                <strong>Documento:</strong> <span id="documento"></span>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>Empréstimos</h2>
+            <div class="filter-container">
+                <label for="filtro-cliente">Filtrar por Status:</label>
+                <select id="filtro-cliente">
+                    <option value="">Todos</option>
+                    <option value="atrasado">Atrasados</option>
+                    <option value="aguardando">Aguardando</option>
+                    <option value="ativo">Ativos</option>
+                </select>
+            </div>
+            <div class="emprestimos-container">
+                <h3>Empréstimos Diários</h3>
+                <div id="emprestimos-diarios-container"></div>
+                <h3>Empréstimos Mensais</h3>
+                <div id="emprestimos-mensais-container"></div>
+            </div>
+        </div>
+
+        <button id="btn-alterar-dados">Alterar Dados</button>
+
+        <div id="modal-alterar-dados" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="fecharModal('modal-alterar-dados')">×</span>
+                <div class="modal-header">
+                    <h2>Alterar Dados do Cliente</h2>
+                </div>
+                <div class="modal-body">
+                    <form id="form-alterar-dados">
+                        <div class="input-group">
+                            <label for="nome-alterar">Nome:</label>
+                            <input type="text" id="nome-alterar" name="nome" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="endereco-alterar">Endereço:</label>
+                            <input type="text" id="endereco-alterar" name="endereco" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="telefone-alterar">Telefone:</label>
+                            <input type="text" id="telefone-alterar" name="telefone" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="documento-alterar">Documento:</label>
+                            <input type="text" id="documento-alterar" name="documento" required>
+                        </div>
+                        <button type="submit">Alterar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/funcoes.js"></script>
+    <script src="../js/cliente.js"></script>
+</body>
+</html>
