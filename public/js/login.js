@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('vendedor_id', data.id);
                 localStorage.setItem('vendedor_nome', data.nome);
                 localStorage.setItem('vendedor_usuario', data.usuario);
-                window.location.href = '../html/cadastrar-cliente.html'; // Redireciona para a página do dashboard (a ser criada)
+                window.location.href = '../html/dashboard.html'; // Redireciona para a página do dashboard (a ser criada)
             })
             .catch(error => {
                 console.error('Erro durante o login:', error);

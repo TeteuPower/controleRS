@@ -65,33 +65,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       emprestimosFiltrados.forEach((emprestimo) => {
-        //console.log(emprestimo)
-        const emprestimoItem = document.createElement('div');
-        emprestimoItem.classList.add('emprestimo-item');
-        emprestimoItem.classList.add(emprestimo.status);
-  
-        let infoEmprestimo = `
-          <div class="info">
-            <!--<strong>ID:</strong> ${emprestimo.id} - -->
-            <strong>${emprestimo.nome_cliente}</strong> - 
-            <strong></strong> R$ ${formatarValor(emprestimo.valor_total)} - 
-            <strong></strong>${emprestimo.taxa_juros}% 
-        `;
-  
-        if (emprestimo.tipo === 'diario') {
-          //console.log(emprestimo)
-          infoEmprestimo += ` - <strong>Pago:</strong> ${formatarValor(emprestimo.total_pago)} de ${(emprestimo.valor_total * ((emprestimo.taxa_juros / 100)+1))} | ${parseInt(emprestimo.total_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias} `;
-        } else {
-          infoEmprestimo += ` - <strong>Valor da Parcela:</strong> R$ ${emprestimo.valor_total * (emprestimo.taxa_juros / 100)} - 
-            <strong>Dia:</strong> ${new Date(emprestimo.data_inicio).getDate()} `;
+        if (emprestimo.status === 'ativo' || emprestimo.status === 'atrasado' || emprestimo.status === 'aguardando') {
+          console.log(emprestimo)
+          const emprestimoItem = document.createElement('div');
+          emprestimoItem.classList.add('emprestimo-item');
+          emprestimoItem.classList.add(emprestimo.status);
+    
+          let infoEmprestimo = `
+            <div class="info">
+              <!--<strong>ID:</strong> ${emprestimo.id} - -->
+              <strong>${emprestimo.nome_cliente}</strong> - 
+              <strong></strong> R$ ${formatarValor(emprestimo.valor_total)} - 
+              <strong></strong>${emprestimo.taxa_juros}% 
+          `;
+    
+          if (emprestimo.tipo === 'diario') {
+            //console.log(emprestimo)
+            infoEmprestimo += ` - <strong>Pago:</strong> ${formatarValor(emprestimo.total_pago)} de ${(emprestimo.valor_total * ((emprestimo.taxa_juros / 100)+1))} | ${parseInt(emprestimo.total_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias} `;
+          } else {
+            infoEmprestimo += ` - <strong>Valor da Parcela:</strong> R$ ${emprestimo.valor_total * (emprestimo.taxa_juros / 100)} - 
+              <strong>Dia:</strong> ${new Date(emprestimo.data_inicio).getDate()} `;
+          }
+    
+          infoEmprestimo += `</div>
+            <div class="status">Status: ${emprestimo.status}</div>
+          `;
+    
+          emprestimoItem.innerHTML = infoEmprestimo;
+          container.appendChild(emprestimoItem);
         }
-  
-        infoEmprestimo += `</div>
-          <div class="status">Status: ${emprestimo.status}</div>
-        `;
-  
-        emprestimoItem.innerHTML = infoEmprestimo;
-        container.appendChild(emprestimoItem);
       });
     }
   
