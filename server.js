@@ -65,6 +65,8 @@ app.use('/registrar-pagamento', autenticar, require('./routes/registrar-pagament
 app.use('/emprestimos-diarios', autenticar, require('./routes/emprestimos-diarios'));
 // Rota para buscar empréstimos mensais
 app.use('/emprestimos-mensais', autenticar, require('./routes/emprestimos-mensais'));
+// Rota para buscar resumo do vendedor
+app.use('/resumo-vendedor', autenticar, require('./routes/resumo-vendedor'));
 
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {

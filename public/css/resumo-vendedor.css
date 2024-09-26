@@ -1,0 +1,29 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de resumo do vendedor */
+.resumo-section {
+    margin-bottom: 20px;
+}
+
+.resumo-section h2 {
+    color: #00b894; /* Cor de destaque para os títulos */
+}
+
+.resumo-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.resumo-section li {
+    margin-bottom: 10px;
+}
+
+.resumo-section li strong {
+    display: inline-block;
+    width: 200px; /* Largura fixa para o rótulo */
+}
+
+.resumo-section li span {
+    font-weight: bold;
+}
