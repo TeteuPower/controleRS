@@ -12,6 +12,8 @@ router.get('/', autenticar, (req, res) => {
       c.nome AS nome_cliente, 
       em.valor_total, 
       em.taxa_juros, 
+      em.tipo,
+      em.data_inicio,
       em.data_termino, 
       em.status,
       (SELECT SUM(valor_pago) FROM pagamentos_mensais WHERE id_emprestimo = em.id) AS total_pago

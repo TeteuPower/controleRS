@@ -64,23 +64,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       emprestimosFiltrados.forEach((emprestimo) => {
+        //console.log(emprestimo)
         const emprestimoItem = document.createElement('div');
         emprestimoItem.classList.add('emprestimo-item');
         emprestimoItem.classList.add(emprestimo.status);
   
         let infoEmprestimo = `
           <div class="info">
-            <strong>ID:</strong> ${emprestimo.id} - 
-            <strong>(${emprestimo.nome_cliente})</strong> - 
-            <strong>Valor emprestado:</strong> R$ ${emprestimo.valor_total} - 
-            <strong>Taxa:</strong> ${emprestimo.taxa_juros}% 
+            <!--<strong>ID:</strong> ${emprestimo.id} - -->
+            <strong>${emprestimo.nome_cliente}</strong> - 
+            <strong></strong> R$ ${formatarValor(emprestimo.valor_total)} - 
+            <strong></strong>${emprestimo.taxa_juros}% 
         `;
   
         if (emprestimo.tipo === 'diario') {
-          infoEmprestimo += ` - <strong>Parcelas:</strong> ${emprestimo.total_pago.toFixed(2)} / ${emprestimo.valor_total.toFixed(2)} - `;
+          //console.log(emprestimo)
+          infoEmprestimo += ` - <strong>Pago:</strong> ${formatarValor(emprestimo.total_pago)} de ${(emprestimo.valor_total * ((emprestimo.taxa_juros / 100)+1))} | ${parseInt(emprestimo.total_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias} `;
         } else {
-          infoEmprestimo += ` - <strong>Valor da Parcela:</strong> R$ ${emprestimo.valor_total} - 
-            <strong>Dia do pagamento:</strong> ${new Date(emprestimo.data_inicio).getDate()} - `;
+          infoEmprestimo += ` - <strong>Valor da Parcela:</strong> R$ ${emprestimo.valor_total * (emprestimo.taxa_juros / 100)} - 
+            <strong>Dia:</strong> ${new Date(emprestimo.data_inicio).getDate()} `;
         }
   
         infoEmprestimo += `</div>

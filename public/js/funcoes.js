@@ -144,3 +144,12 @@ function formatarData(dataString) {
   const ano = data.getFullYear();
   return `${dia}/${mes}/${ano}`;
 }
+
+// Função para formatar valores para o padrão brasileiro
+function formatarValor(valor) {
+  valor = parseFloat(valor).toFixed(2); // Garante duas casas decimais
+  const partes = valor.split('.');
+  const inteiro = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona ponto a cada três dígitos
+  const decimal = partes[1];
+  return inteiro + ',' + decimal; // Junta as partes com vírgula
+}
