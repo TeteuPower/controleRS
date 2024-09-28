@@ -8,15 +8,22 @@ router.get('/', autenticar, async (req, res) => {
 
   try {
     // 1. Empréstimos Ativos
-    const sqlEmprestimosAtivos = `
+    const sqlEmprestimosAtivosMensais = `
       SELECT COUNT(*) AS total_ativos
       FROM (
         SELECT id FROM emprestimos_mensais WHERE id_vendedor = ? AND status != 'quitado'
-        UNION ALL
-        SELECT id FROM emprestimos_diarios WHERE id_vendedor = ? AND status != 'quitado'
       ) AS ativos;
     `;
-    const [emprestimosAtivos] = await db.promise().query(sqlEmprestimosAtivos, [idVendedor, idVendedor]);
+    const [emprestimosAtivosMensais] = await db.promise().query(sqlEmprestimosAtivosMensais, [idVendedor, idVendedor]);
+
+        // 1. Empréstimos Ativos
+        const sqlEmprestimosAtivosDiarios = `
+        SELECT COUNT(*) AS total_ativos
+        FROM (
+          SELECT id FROM emprestimos_diarios WHERE id_vendedor = ? AND status != 'quitado'
+        ) AS ativos;
+      `;
+      const [emprestimosAtivosDiarios] = await db.promise().query(sqlEmprestimosAtivosDiarios, [idVendedor, idVendedor]);
 
     // 2. Valor Total Investido
     const sqlValorTotalInvestido = `
@@ -78,24 +85,25 @@ router.get('/', autenticar, async (req, res) => {
     const [emprestimosDiariosFinalizados] = await db.promise().query(sqlEmprestimosDiariosFinalizados, [idVendedor]);
 
     // 9. Lucro Total Diário
-    const sqlLucroTotalDiario = `
-      SELECT SUM(valor_total * (taxa_juros / 100) - valor_total) AS lucro_total_diario
+    const sqlLucroTotalDiarioQuitado = `
+      SELECT SUM(valor_total * ((taxa_juros / 100)+1)) AS lucro_total_diario_quitado
       FROM emprestimos_diarios
       WHERE id_vendedor = ? AND status = 'quitado';
     `;
-    const [lucroTotalDiario] = await db.promise().query(sqlLucroTotalDiario, [idVendedor]);
+    const [lucroTotalDiarioQuitado] = await db.promise().query(sqlLucroTotalDiarioQuitado, [idVendedor]);
 
     // 10. Lucro Total Mensal
-    const sqlLucroTotalMensal = `
-      SELECT SUM(valor_total * (taxa_juros / 100) - valor_total) AS lucro_total_mensal
+    const sqlLucroTotalMensalQuitado = `
+      SELECT SUM(valor_total * ((taxa_juros / 100)+1)) AS lucro_total_mensal_quitado
       FROM emprestimos_mensais
       WHERE id_vendedor = ? AND status = 'quitado';
     `;
-    const [lucroTotalMensal] = await db.promise().query(sqlLucroTotalMensal, [idVendedor]);
+    const [lucroTotalMensalQuitado] = await db.promise().query(sqlLucroTotalMensalQuitado, [idVendedor]);
 
     // Formatar os valores para exibição
     const resumo = {
-      emprestimosAtivos: emprestimosAtivos[0].total_ativos,
+      emprestimosAtivosMensais: emprestimosAtivosMensais[0].total_ativos,
+      emprestimosAtivosDiarios: emprestimosAtivosDiarios[0].total_ativos,
       valorTotalInvestido: valorTotalInvestido[0].total_investido,
       lucroDiario: lucroDiario[0].lucro_diario,
       lucroMensal: lucroMensal[0].lucro_mensal,
@@ -103,8 +111,8 @@ router.get('/', autenticar, async (req, res) => {
       emprestimosMensaisAtrasados: emprestimosMensaisAtrasados[0].total_atrasados,
       emprestimosMensaisFinalizados: emprestimosMensaisFinalizados[0].total_finalizados,
       emprestimosDiariosFinalizados: emprestimosDiariosFinalizados[0].total_finalizados,
-      lucroTotalDiario: lucroTotalDiario[0].lucro_total_diario,
-      lucroTotalMensal: lucroTotalMensal[0].lucro_total_mensal,
+      lucroTotalDiarioQuitado: lucroTotalDiarioQuitado[0].lucro_total_diario_quitado,
+      lucroTotalMensalQuitado: lucroTotalMensalQuitado[0].lucro_total_mensal_quitado,
     };
 
     return res.json(resumo);
