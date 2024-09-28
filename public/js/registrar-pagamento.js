@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalPagamento = document.getElementById('modal-pagamento'); // Modal para registrar pagamento
     const modalParcelas = document.getElementById('modal-parcelas'); // Modal para escolher o número de parcelas
     const inputIdEmprestimo = document.getElementById('id-emprestimo');
+    const inputTipoEmprestimo = document.getElementById('tipo-emprestimo');
     const inputParcelas = document.getElementById('parcelas');
     const inputValorPago = document.getElementById('valor-pago');
     const btnConfirmarPagamento = document.getElementById('btn-confirmar-pagamento');
@@ -67,32 +68,66 @@ document.addEventListener('DOMContentLoaded', () => {
             const botaoRegistrar = document.createElement('button');
             botaoRegistrar.textContent = 'Registrar Pagamento';
             botaoRegistrar.id = emprestimo.id; //
-            botaoRegistrar.addEventListener('click', () => {
-              inputIdEmprestimo.value = emprestimo.id;
-              //Lógica de parcelas restantes   
-              const taxaJuros = emprestimo.taxa_juros;
-              const valorTotal = (emprestimo.valor_total * ((taxaJuros/100) + 1) );
-              const diasJuros = emprestimo.numero_dias;
-              const parcelaDiaria = valorTotal / diasJuros; // Calcula a parcela diária
-              const totalPago = emprestimo.valor_pago; // Obter o valor total pago
-              const parcelasRestantes = (valorTotal - totalPago)/ parcelaDiaria; // Obter o número de parcelas restantes
+            if (emprestimo.tipo === 'diario') {
+              botaoRegistrar.addEventListener('click', () => {
+                //console.log('diario')
+                inputIdEmprestimo.value = emprestimo.id;
+                //Lógica de parcelas restantes   
+                const taxaJuros = emprestimo.taxa_juros;
+                const valorTotal = (emprestimo.valor_total * ((taxaJuros/100) + 1) );
+                const diasJuros = emprestimo.numero_dias;
+                const parcelaDiaria = valorTotal / diasJuros; // Calcula a parcela diária
+                const totalPago = emprestimo.valor_pago; // Obter o valor total pago
+                const parcelasRestantes = (valorTotal - totalPago)/ parcelaDiaria; // Obter o número de parcelas restantes
 
-              //const totalDeveriaEstarPago = parcelaDiaria * diasDecorridos; // Calcula o valor do pagamento diário
-              
-              //const parcelas = (totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria; // Calcula o valor das parcelas restantes
-              //console.log(parcelasRestantes);
-              abrirModalParcelas(emprestimo.id, parcelasRestantes)
-              btnConfirmarPagamento.addEventListener('click', () => {
-                if (inputParcelas.value>parcelasRestantes) {
-                  alert(`Esse empréstimo tem apenas ${parcelasRestantes} parcelas restantes. Por favor, escolha um valor menor!`);
-                  return;
-                } else {
-                  inputValorPago.value = (inputParcelas.value * parcelaDiaria);
-                  modalParcelas.style.display = 'none';
-                  modalPagamento.style.display = 'block';
-                }
+                //const totalDeveriaEstarPago = parcelaDiaria * diasDecorridos; // Calcula o valor do pagamento diário
+                
+                //const parcelas = (totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria; // Calcula o valor das parcelas restantes
+                //console.log(parcelasRestantes);
+                  abrirModalParcelas(emprestimo.id, parcelasRestantes)
+                  btnConfirmarPagamento.addEventListener('click', () => {
+                    if (inputParcelas.value>parcelasRestantes) {
+                      alert(`Esse empréstimo tem apenas ${parcelasRestantes} parcelas restantes. Por favor, escolha um valor menor!`);
+                      return;
+                    } else {
+                      inputValorPago.value = (inputParcelas.value * parcelaDiaria);
+                      modalParcelas.style.display = 'none';
+                      modalPagamento.style.display = 'block';
+                    }
+                  });
               });
-            });
+            }
+            if (emprestimo.tipo === 'mensal') {
+              botaoRegistrar.addEventListener('click', () => {
+                inputValorPago.value = (emprestimo.valor_total * (emprestimo.taxa_juros / 100));
+                //modalParcelas.style.display = 'none';
+                modalPagamento.style.display = 'block';
+                //console.log('mensal')
+                inputIdEmprestimo.value = emprestimo.id;
+                inputTipoEmprestimo.value = emprestimo.tipo;
+                //Lógica de parcelas restantes   
+                const taxaJuros = emprestimo.taxa_juros;
+                const valorTotal = (emprestimo.valor_total * ((taxaJuros/100) + 1) );
+                const diasJuros = emprestimo.numero_dias;
+                const parcelaDiaria = valorTotal / diasJuros; // Calcula a parcela diária
+                const totalPago = emprestimo.valor_pago; // Obter o valor total pago
+                const parcelasRestantes = (valorTotal - totalPago)/ parcelaDiaria; // Obter o número de parcelas restantes
+
+                //const totalDeveriaEstarPago = parcelaDiaria * diasDecorridos; // Calcula o valor do pagamento diário
+                
+                //const parcelas = (totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria; // Calcula o valor das parcelas restantes
+                //console.log(parcelasRestantes);
+                  //abrirModalParcelas(emprestimo.id, parcelasRestantes)
+                  btnConfirmarPagamento.addEventListener('click', () => {
+                    if (inputParcelas.value>parcelasRestantes) {
+                      alert(`Esse empréstimo tem apenas ${parcelasRestantes} parcelas restantes. Por favor, escolha um valor menor!`);
+                      return;
+                    } else {
+
+                    }
+                  });
+              });
+            }
   
             emprestimoItem.innerHTML = infoEmprestimo;
             emprestimoItem.appendChild(botaoRegistrar);
@@ -124,41 +159,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const id_emprestimo = inputIdEmprestimo.value;
     const valor_pagamento = inputValorPago.value;
+    const tipoEmprestimo = inputTipoEmprestimo.value;
 
     // Criar objeto com os dados do pagamento
     const pagamento = {
       id_emprestimo: id_emprestimo,
       valor_pagamento: valor_pagamento,
+      tipoEmprestimo: tipoEmprestimo
     };
     console.log(pagamento);
-
-    // Fazer requisição POST para a API
-    fetch('/registrar-pagamento/diario', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem('token'),
-      },
-      body: JSON.stringify(pagamento),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro na requisição.');
-        }
-        return response.json();
+    if (pagamento.tipoEmprestimo === 'diario') {
+      // Fazer requisição POST para a API
+      fetch('/registrar-pagamento/diario', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('token'),
+        },
+        body: JSON.stringify(pagamento),
       })
-      .then((data) => {
-        // Pagamento registrado com sucesso!
-        alert(data.message || 'Pagamento registrado com sucesso!');
-        modalPagamento.style.display = 'none'; // Fecha o modal
-        buscarEmprestimos(selectCliente.value); // Atualiza a lista de empréstimos
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na requisição.');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Pagamento registrado com sucesso!
+          alert(data.message || 'Pagamento registrado com sucesso!');
+          modalPagamento.style.display = 'none'; // Fecha o modal
+          buscarEmprestimos(selectCliente.value); // Atualiza a lista de empréstimos
+        })
+        .catch((error) => {
+          console.error('Erro ao registrar pagamento:', error);
+          alert('Erro ao registrar pagamento. Por favor, tente novamente.');
+        });
+    }
+    if (pagamento.tipoEmprestimo === 'mensal') {
+      // Fazer requisição POST para a API
+      fetch('/registrar-pagamento/mensal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('token'),
+        },
+        body: JSON.stringify(pagamento),
       })
-      .catch((error) => {
-        console.error('Erro ao registrar pagamento:', error);
-        alert('Erro ao registrar pagamento. Por favor, tente novamente.');
-      });
-
-
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na requisição.');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Pagamento registrado com sucesso!
+          alert(data.message || 'Pagamento registrado com sucesso!');
+          modalPagamento.style.display = 'none'; // Fecha o modal
+          buscarEmprestimos(selectCliente.value); // Atualiza a lista de empréstimos
+        })
+        .catch((error) => {
+          console.error('Erro ao registrar pagamento:', error);
+          alert('Erro ao registrar pagamento. Por favor, tente novamente.');
+        });
+    }
 
     // Adicionar ouvintes de eventos para o modal de parcelas
     modalParcelas.addEventListener('click', (event) => {
