@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((resumo) => {
           // Preencher os elementos com os valores do resumo
           emprestimosAtivos.textContent = resumo.emprestimosAtivos;
-          valorTotalInvestido.textContent = resumo.valorTotalInvestido;
+          valorTotalInvestido.textContent = formatarValor(resumo.valorTotalInvestido);
           lucroDiario.textContent = resumo.lucroDiario;
           lucroMensal.textContent = resumo.lucroMensal;
           emprestimosDiariosAtrasados.textContent = resumo.emprestimosDiariosAtrasados;

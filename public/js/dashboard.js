@@ -73,22 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
     
           let infoEmprestimo = `
             <div class="info">
-              <!--<strong>ID:</strong> ${emprestimo.id} - -->
-              <strong>${emprestimo.nome_cliente}</strong> - 
-              <strong></strong> R$ ${formatarValor(emprestimo.valor_total)} - 
-              <strong></strong>${emprestimo.taxa_juros}% 
+              <p><strong>ID:</strong> ${emprestimo.id} - <strong>${emprestimo.nome_cliente}</strong></p>
+              <p>R$ ${formatarValor(emprestimo.valor_total)} - <strong></strong>${emprestimo.taxa_juros}% </p>
           `;
     
           if (emprestimo.tipo === 'diario') {
             //console.log(emprestimo)
-            infoEmprestimo += ` - <strong>Pago:</strong> ${formatarValor(emprestimo.total_pago)} de ${(emprestimo.valor_total * ((emprestimo.taxa_juros / 100)+1))} | ${parseInt(emprestimo.total_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias} `;
+            infoEmprestimo += `<p>R$ ${formatarValor(emprestimo.total_pago || 0)} de ${formatarValor(emprestimo.valor_total * ((emprestimo.taxa_juros / 100)+1))}</p>
+            <p><strong>Parcelas:</strong> ${parseInt(emprestimo.total_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias}</p>
+            <p><strong>Parcelas Atrasadas:</strong> (Em breve)</p>`;
           } else {
-            infoEmprestimo += ` - <strong>Valor da Parcela:</strong> R$ ${emprestimo.valor_total * (emprestimo.taxa_juros / 100)} - 
-              <strong>Dia:</strong> ${new Date(emprestimo.data_inicio).getDate()} `;
+            infoEmprestimo += `<p><strong>Parcela:</strong> R$ ${emprestimo.valor_total * (emprestimo.taxa_juros / 100)} - 
+              <strong>Dia:</strong> ${new Date(emprestimo.data_inicio).getDate()}</p>
+              <p><strong>Início:</strong> ${formatarData(emprestimo.data_inicio)}
+              <p><strong>Parcelas Pagas:</strong> (Em breve)</p> `;
           }
     
           infoEmprestimo += `</div>
-            <div class="status">Status: ${emprestimo.status}</div>
+            <div class="status"><p>Status:</p><p> ${emprestimo.status}</p></div>
           `;
     
           emprestimoItem.innerHTML = infoEmprestimo;
