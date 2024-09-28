@@ -1,12 +1,13 @@
-// utils/verificarPagamentos.js
 const db = require('../db'); // Importe a conexão com o banco de dados
-const cron = require('node-cron'); // Importe a biblioteca node-cron
 
 // Função para verificar os pagamentos
-async function verificarPagamentos() {
+async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
     try {
+    if (tipo_emprestimo === 'diario') {
+      
+
       // 1. Obter todos os empréstimos diários ativos
-      const sqlDiarios = `
+      const sqlDiario = `
         SELECT 
           id, 
           id_cliente, 
@@ -18,10 +19,11 @@ async function verificarPagamentos() {
         FROM 
           emprestimos_diarios 
         WHERE 
-          status = 'ativo' OR status = 'aguardando' OR status = 'atrasado'
+          id = ?
       `;
   
-      const [emprestimosDiarios] = await db.promise().query(sqlDiarios);
+      const [emprestimosDiarios] = await db.promise().query(sqlDiario, [idEmprestimo]);
+      //console.log(emprestimosDiarios);
   
       // 2. Iterar sobre cada empréstimo diário
       for (const emprestimo of emprestimosDiarios) {
@@ -60,11 +62,6 @@ async function verificarPagamentos() {
         const totalEstaPago = saldoEmprestimo[0].total_pago || 0; // Obter o valor total pago
   
         const parcelas = (totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria; // Calcula o valor das parcelas restantes
-  
-        //console.log(dataInicio, dataAtual, diasDecorridos)
-        //console.log(emprestimo);
-        //console.log('Parcela:', parcelas);
-  
         //// 5. Atualizar o status do empréstimo
         if(parseFloat(totalEstaPago) === parseFloat(valorTotalComJuros)) {
           // Atualizar o status para 'pago'
@@ -88,9 +85,12 @@ async function verificarPagamentos() {
             await db.promise().query(sqlAtualiza, ['ativo', emprestimo.id]);
             console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'ativo'.`);
           }
+          console.log(`Verificação do empréstimo diário ${emprestimo.id} concluída.`);
         }
       }
-      console.log('Verificação dos pagamentos diários concluída.');
+      return;
+    }
+    if (tipo_emprestimo === 'mensal') {
       // 1. Obter todos os empréstimos mensais ativos
       const sqlMensais = `
         SELECT 
@@ -103,10 +103,10 @@ async function verificarPagamentos() {
         FROM 
           emprestimos_mensais 
         WHERE 
-          status = 'ativo' OR status = 'aguardando' OR status = 'atrasado'
+          id = ?
       `;
   
-      const [emprestimosMensais] = await db.promise().query(sqlMensais);
+      const [emprestimosMensais] = await db.promise().query(sqlMensais, [idEmprestimo]);
       // 2. Iterar sobre cada empréstimo diário
       for (const emprestimo of emprestimosMensais) {
         // 3. Verificar se o empréstimo está em dia ou atrasado
@@ -131,8 +131,6 @@ async function verificarPagamentos() {
           const valorParcela = (emprestimo.valor_total * (emprestimo.taxa_juros/100));
           const totalDeveriaEstarPago = ((mesAtual - mesDoInicio) * valorParcela); // Calcula a parcela mensal do empréstimo
 
-//          console.log(valorParcela, totalDeveriaEstarPago, totalEstaPago);
-
           // 6. Verificar o status do empréstimo
           if (totalEstaPago >= totalDeveriaEstarPago) {
             // Atualizar o status para 'quitado'
@@ -150,17 +148,14 @@ async function verificarPagamentos() {
             await db.promise().query(sqlAtualiza, ['atrasado', emprestimo.id]);
             console.log(`Empréstimo mensal ID:${emprestimo.id} atualizado para 'atrasado'.`);
           }
-        
+          console.log(`Verificação do empréstimo mensal ${emprestimo.id} concluída.`);
       }
-      console.log('Verificação dos pagamentos mensais concluída.');
-  
-      console.log('Verificação de todos pagamentos concluída!');
+    }
     } catch (error) {
       console.error('Erro ao verificar pagamentos:', error);
     }
+
   }
   
-  // Agendar a função para executar todos os dias às 00:01
-  cron.schedule('01 00 * * *', verificarPagamentos);
 
-module.exports = verificarPagamentos;
+module.exports = verificarStatusEmprestimo;

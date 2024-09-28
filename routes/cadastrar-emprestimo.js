@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db'); // Importe a conexão com o banco de dados
 const autenticar = require('../middleware/auth'); // Importe o middleware de autenticação
-const verificarPagamentos = require('../utils/verificarPagamentos');
+const verificarStatusEmprestimo = require('../utils/verificarStatusEmprestimo');
 
 router.post('/', autenticar, (req, res) => {
   const { id_cliente, valor, juros, data_inicio, tipo_emprestimo, dias, vendedor_id } = req.body;
@@ -42,7 +42,9 @@ router.post('/', autenticar, (req, res) => {
       }
 
       console.log('Empréstimo cadastrado com sucesso!');
-      verificarPagamentos();
+      const idNovoEmprestimo = result.insertId;
+      //console.log(idNovoEmprestimo);
+      verificarStatusEmprestimo(idNovoEmprestimo, tipo_emprestimo);
       return res.status(201).json({ message: 'Empréstimo cadastrado com sucesso!' });
     });
   } catch (error) {

@@ -4,7 +4,7 @@ const db = require('../db'); // Importe a conexão com o banco de dados
 const autenticar = require('../middleware/auth'); // Importe o middleware de autenticação
 //const cron = require('node-cron'); // Importe a biblioteca node-cron
 const verificarPagamentos = require('../utils/verificarPagamentos');
-verificarPagamentos();  // Chame a função para verificar os pagamentos
+//verificarPagamentos();  // Chame a função para verificar os pagamentos
 
 router.post('/diario', autenticar, (req, res) => {
   const { id_emprestimo, valor_pagamento } = req.body;
