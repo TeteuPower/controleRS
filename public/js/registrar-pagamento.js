@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
               botaoRegistrar.addEventListener('click', () => {
                 //console.log('diario')
                 inputIdEmprestimo.value = emprestimo.id;
+                inputTipoEmprestimo.value = emprestimo.tipo;
                 //Lógica de parcelas restantes   
                 const taxaJuros = emprestimo.taxa_juros;
                 const valorTotal = (emprestimo.valor_total * ((taxaJuros/100) + 1) );
