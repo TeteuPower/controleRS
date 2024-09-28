@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
   
           emprestimos.forEach((emprestimo) => {
-            console.log(emprestimo);
+            //console.log(emprestimo);
             const emprestimoItem = document.createElement('div');
             emprestimoItem.classList.add('emprestimo-item');
   
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
       valor_pagamento: valor_pagamento,
       tipoEmprestimo: tipoEmprestimo
     };
-    console.log(pagamento);
+    //console.log(pagamento);
     if (pagamento.tipoEmprestimo === 'diario') {
       // Fazer requisição POST para a API
       fetch('/registrar-pagamento/diario', {

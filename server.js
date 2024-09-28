@@ -69,6 +69,9 @@ app.use('/emprestimos-mensais', autenticar, require('./routes/emprestimos-mensai
 app.use('/resumo-vendedor', autenticar, require('./routes/resumo-vendedor'));
 // Rota para buscar historico de pagamentos
 app.use('/historico-pagamentos', autenticar, require('./routes/historico-pagamentos'));
+// API para buscar feriados
+app.use('/feriados', autenticar, require('./routes/feriados'));
+
 // Rota para login do administrador (gera o token)
 app.post('/api/login', (req, res) => {
     const { usuario, senha } = req.body; // Recebe usuário e senha

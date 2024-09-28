@@ -1,0 +1,84 @@
+/* Importe o global.css para estilos básicos */
+@import url("global.css");
+
+/* Estilos específicos para a página de gerenciar feriados */
+.feriados-section {
+    margin-bottom: 20px;
+}
+
+.feriados-section h2 {
+    color: #00b894; /* Cor de destaque para os títulos */
+}
+
+#feriados-list {
+    list-style: none;
+    padding: 0;
+}
+
+#feriados-list li {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#feriados-list li .data {
+    font-weight: bold;
+}
+
+#feriados-list li button {
+    background-color: #c0392b; /* Vermelho */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#feriados-list li button:hover {
+    background-color: #e74c3c; /* Vermelho mais escuro ao passar o mouse */
+}
+
+#form-adicionar-feriado {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#form-adicionar-feriado .input-group {
+    margin-bottom: 15px;
+}
+
+#form-adicionar-feriado label {
+    display: block;
+    margin-bottom: 5px;
+    color: #eee;
+}
+
+#form-adicionar-feriado input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #111;
+    color: #eee;
+}
+
+#form-adicionar-feriado input:focus {
+    outline: none;
+    border-color: #00b894;
+}
+
+#form-adicionar-feriado button[type="submit"] {
+    background-color: #00b894;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#form-adicionar-feriado button[type="submit"]:hover {
+    background-color: #009688;
+}
