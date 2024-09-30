@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dias: dias, // Inclui o número de dias, mesmo que seja vazio para empréstimos mensais
       vendedor_id: vendedor_id, // Adiciona o ID do vendedor ao empréstimo
     };
-    console.log(novoEmprestimo);
+    //console.log(novoEmprestimo);
     // Fazer requisição POST para a API
     fetch('/cadastrar-emprestimo', {
       method: 'POST',

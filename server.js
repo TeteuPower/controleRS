@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken'); // Importa o módulo jsonwebtoken
 const request = require('request')
 const autenticar = require('./middleware/auth'); // Importa o middleware de autenticação
 const bcrypt = require('bcrypt');
+const verificarPagamentos = require('./utils/verificarPagamentos'); // Importe a função
 require('dotenv').config(); // Carrega as variáveis do .env
 
 // Middleware para processar o corpo das requisições POST
@@ -127,6 +128,16 @@ app.get('/api/verificar-token', autenticar, (req, res) => {
     // Se o middleware autenticar for bem-sucedido, o token é válido
     res.json({ valido: true });
 });
+
+app.post('/api/atualizar-status', autenticar, async (req, res) => {
+    try {
+      await verificarPagamentos(); // Chama a função para verificar os pagamentos
+      return res.json({ message: 'Status dos empréstimos atualizados com sucesso!' });
+    } catch (error) {
+      console.error('Erro ao atualizar status:', error);
+      return res.status(500).json({ error: 'Erro ao atualizar status.' });
+    }
+  });
 
 
 const PORT = process.env.PORT || 3000;

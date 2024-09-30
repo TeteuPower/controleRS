@@ -98,6 +98,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     }
+
+    // Adicionar ouvinte de evento ao botão "Atualizar Status Manualmente"
+    const btnAtualizarStatus = document.getElementById('btn-atualizar-status');
+    btnAtualizarStatus.addEventListener('click', () => {
+      alert(' A atualização leva cerca de 30s.')
+      // Fazer uma requisição para a rota que chama a função verificarPagamentos
+      fetch('/api/atualizar-status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('token'), // Adiciona o token no header
+        }
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro ao atualizar status.');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          alert('Status dos empréstimos atualizados com sucesso!');
+        })
+        .catch((error) => {
+          console.error('Erro ao atualizar status:', error);
+          alert('Erro ao atualizar status. Por favor, tente novamente.');
+        });
+    });
   
     // Chamar as funções para buscar os empréstimos ao carregar a página
     buscarEmprestimosDiarios();

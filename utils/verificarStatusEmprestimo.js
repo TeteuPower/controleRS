@@ -85,7 +85,7 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
             await db.promise().query(sqlAtualiza, ['ativo', emprestimo.id]);
             console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'ativo'.`);
           }
-          console.log(`Verificação do empréstimo diário ${emprestimo.id} concluída.`);
+          //console.log(`Verificação do empréstimo diário ${emprestimo.id} concluída.`);
         }
       }
       return;
@@ -148,7 +148,7 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
             await db.promise().query(sqlAtualiza, ['atrasado', emprestimo.id]);
             console.log(`Empréstimo mensal ID:${emprestimo.id} atualizado para 'atrasado'.`);
           }
-          console.log(`Verificação do empréstimo mensal ${emprestimo.id} concluída.`);
+          //console.log(`Verificação do empréstimo mensal ${emprestimo.id} concluída.`);
       }
     }
     } catch (error) {

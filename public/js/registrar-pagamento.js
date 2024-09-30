@@ -62,6 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 let mensal = (emprestimo.valor_total * (emprestimo.taxa_juros / 100));
               //infoEmprestimo += `<strong>Data de Término:</strong> ${emprestimo.data_termino || 'Indefinida'}<br>`;
               infoEmprestimo += `<strong>Parcela:</strong> R$ ${mensal.toFixed(2)} ${emprestimo.tipo === 'mensal' ? 'por mês' : 'por dia'}<br>`;
+              /*// Adicionar um botão para registrar o pagamento
+              const botaoRegistrarQuitacao = document.createElement('button');
+              botaoRegistrarQuitacao.textContent = 'Registrar Abatimento(em Breve)';
+              botaoRegistrarQuitacao.id = emprestimo.id; //
+              emprestimoItem.appendChild(botaoRegistrarQuitacao);*/
             }
   
             // Adicionar um botão para registrar o pagamento
@@ -133,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             emprestimoItem.innerHTML = infoEmprestimo;
             emprestimoItem.appendChild(botaoRegistrar);
             emprestimosContainer.appendChild(emprestimoItem);
+
           });
         })
         .catch((error) => {
