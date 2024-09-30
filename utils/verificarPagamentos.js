@@ -161,6 +161,6 @@ async function verificarPagamentos() {
   }
   
   // Agendar a função para executar todos os dias às 00:01
-  cron.schedule('01 00 * * *', verificarPagamentos);
+  cron.schedule('01 03 * * *', verificarPagamentos);
 
 module.exports = verificarPagamentos;
