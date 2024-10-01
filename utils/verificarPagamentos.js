@@ -99,7 +99,7 @@ async function verificarPagamentos() {
           data_inicio,  
           valor_total, 
           taxa_juros,
-          valor_pago
+          valor_pago,
           status 
         FROM 
           emprestimos_mensais 
