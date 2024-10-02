@@ -15,6 +15,7 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
           numero_dias, 
           valor_total, 
           taxa_juros,
+          valor_pago,
           status 
         FROM 
           emprestimos_diarios 
@@ -53,15 +54,16 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
         const totalDeveriaEstarPago = parcelaDiaria * diasDecorridos; // Calcula o valor do pagamento diário
   
         // 4. Consultar o valor total pago para o empréstimo
-        const sqlPagamentos = `
+        /*const sqlPagamentos = `
           SELECT SUM(valor_pago) AS total_pago
           FROM pagamentos_diarios
           WHERE id_emprestimo = ?
         `;
-        const [saldoEmprestimo] = await db.promise().query(sqlPagamentos, [emprestimo.id]);
-        const totalEstaPago = saldoEmprestimo[0].total_pago || 0; // Obter o valor total pago
+        const [saldoEmprestimo] = await db.promise().query(sqlPagamentos, [emprestimo.id]);*/
+        const totalEstaPago = emprestimo.valor_pago; // Obter o valor total pago
   
         const parcelas = (totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria; // Calcula o valor das parcelas restantes
+        //console.log('totalEstaPago:', totalEstaPago,'totalDeveriaEstarPago:', totalDeveriaEstarPago, 'parcelas:', parcelas, 'valorTotalComJuros:', valorTotalComJuros);
         //// 5. Atualizar o status do empréstimo
         if(parseFloat(totalEstaPago) === parseFloat(valorTotalComJuros)) {
           // Atualizar o status para 'pago'
@@ -85,7 +87,7 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
             await db.promise().query(sqlAtualiza, ['ativo', emprestimo.id]);
             console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'ativo'.`);
           }
-          //console.log(`Verificação do empréstimo diário ${emprestimo.id} concluída.`);
+          console.log(`Verificação do empréstimo diário ${emprestimo.id} concluída.`);
         }
       }
       return;
