@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return response.json();
         })
         .then((emprestimos) => {
-          console.log(emprestimos);
+          //console.log(emprestimos);
           exibirEmprestimos(emprestimosMensaisContainer, emprestimos);
         })
         .catch((error) => {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p><strong>Parcelas:</strong> ${parseInt(emprestimo.total_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias}</p>
             <p><strong>Parcelas Atrasadas:</strong> (Em breve)</p>`;
           } else {
-            console.log(emprestimo)
+            //console.log(emprestimo)
             infoEmprestimo += `<p><strong>Parcela:</strong> R$ ${emprestimo.valor_total * (emprestimo.taxa_juros / 100)} - 
               <strong>Dia:</strong> ${new Date(emprestimo.data_inicio).getDate()}</p>
               <p><strong>Início:</strong> ${formatarData(emprestimo.data_inicio)}
