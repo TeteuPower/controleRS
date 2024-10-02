@@ -131,7 +131,7 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
         const totalEstaPago = parseFloat(emprestimo.valor_pago); // Obter o valor total pago
           const valorParcela = (emprestimo.valor_total * (emprestimo.taxa_juros/100));
           const totalDeveriaEstarPago = ((mesAtual - mesDoInicio) * valorParcela); // Calcula a parcela mensal do empréstimo
-          console.log('totalEstaPago:', totalEstaPago,'totalDeveriaEstarPago:', totalDeveriaEstarPago, 'diaDoMesAtual:',diaDoMesAtual,'diaDoMesInicio:', diaDoMesInicio, 'valorParcela:', valorParcela, 'mesAtual:', mesAtual, 'mesDoInicio:', mesDoInicio);
+          //console.log('totalEstaPago:', totalEstaPago,'totalDeveriaEstarPago:', totalDeveriaEstarPago, 'diaDoMesAtual:',diaDoMesAtual,'diaDoMesInicio:', diaDoMesInicio, 'valorParcela:', valorParcela, 'mesAtual:', mesAtual, 'mesDoInicio:', mesDoInicio);
 
           // 6. Verificar o status do empréstimo
           if (totalEstaPago >= totalDeveriaEstarPago) {

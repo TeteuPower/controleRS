@@ -10,6 +10,9 @@ const bcrypt = require('bcrypt');
 const verificarPagamentos = require('./utils/verificarPagamentos'); // Importe a função
 require('dotenv').config(); // Carrega as variáveis do .env
 
+// Definir o fuso horário
+process.env.TZ = 'America/Sao_Paulo';
+
 // Middleware para processar o corpo das requisições POST
 app.use(bodyParser.json()); 
 
