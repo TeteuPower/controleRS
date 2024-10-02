@@ -58,6 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const tipo_emprestimo = selectTipoEmprestimo.value;
     const dias = document.getElementById('dias').value;
     const vendedor_id = localStorage.getItem('vendedor_id');
+    const dia31 = new Date(data_inicio);
+    dia31.setHours(dia31.getHours() + dia31.getTimezoneOffset() / 60); // Ajusta o horário para o horário local
+    const dia = dia31.getDate();
+    
+    if (tipo_emprestimo === 'mensal' && dia === 31) {
+      alert('Data de início de um empréstimo MENSAL não pode ser um dia 31.');
+      return;
+    }
 
     // Criar objeto com os dados do empréstimo
     const novoEmprestimo = {

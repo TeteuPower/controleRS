@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (emprestimo.tipo === 'diario') {
             //console.log(emprestimo)
             infoEmprestimo += `<p>R$ ${formatarValor(emprestimo.total_pago || 0)} de ${formatarValor(emprestimo.valor_total * ((emprestimo.taxa_juros / 100)+1))}</p>
+            <strong>Data de Início:</strong> ${formatarData(emprestimo.data_inicio)}<br>
             <p><strong>Parcelas:</strong> ${parseInt(emprestimo.total_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias}</p>
             <p><strong>Parcelas Atrasadas:</strong> (Em breve)</p>`;
           } else {

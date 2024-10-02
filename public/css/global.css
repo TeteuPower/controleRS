@@ -259,3 +259,24 @@ body {
   .modal-footer button:hover {
     background-color: #009688; /* Cor de fundo do botão em foco */
   }
+
+/* Estilos para Botões */
+button {
+    background-color: #00b894; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px; /* Adiciona margem à direita */
+  }
+  
+  button:hover {
+    background-color: #009688; /* Cor de fundo do botão em foco */
+  }
+  
+  button:disabled {
+    background-color: #ccc; /* Cor de fundo do botão desabilitado */
+    cursor: not-allowed; /* Cursor de "não permitido" */
+  }

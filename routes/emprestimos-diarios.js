@@ -13,6 +13,7 @@ router.get('/', autenticar, (req, res) => {
       ed.valor_total, 
       ed.taxa_juros, 
       ed.numero_dias, 
+      ed.data_inicio,
       ed.tipo,
       ed.status,
       (SELECT SUM(valor_pago) FROM pagamentos_diarios WHERE id_emprestimo = ed.id) AS total_pago

@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
   
           emprestimos.forEach((emprestimo) => {
+          if (emprestimo.tipo === 'diario') {
             //console.log(emprestimo);
             const emprestimoItem = document.createElement('div');
             emprestimoItem.classList.add('emprestimo-item');
@@ -52,23 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
               <strong>Data de Início:</strong> ${formatarData(emprestimo.data_inicio)}<br>
             `;
   
-            // Determinar a parcela do empréstimo
-            if (emprestimo.tipo === 'diario') {
-                let diario = (emprestimo.valor_total * ((emprestimo.taxa_juros / 100) + 1))/emprestimo.numero_dias;
+              let diario = (emprestimo.valor_total * ((emprestimo.taxa_juros / 100) + 1))/emprestimo.numero_dias;
               infoEmprestimo += `<strong>Parcelas:</strong> ${parseInt(emprestimo.valor_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias}<br>`;
               infoEmprestimo += `<strong>Valor:</strong> R$ ${diario.toFixed(2)} por dia<br>`;
-            }
-            if(emprestimo.tipo === 'mensal') {
-                let mensal = (emprestimo.valor_total * (emprestimo.taxa_juros / 100));
-              //infoEmprestimo += `<strong>Data de Término:</strong> ${emprestimo.data_termino || 'Indefinida'}<br>`;
-              infoEmprestimo += `<strong>Parcela:</strong> R$ ${mensal.toFixed(2)} ${emprestimo.tipo === 'mensal' ? 'por mês' : 'por dia'}<br>`;
-              /*// Adicionar um botão para registrar o pagamento
-              const botaoRegistrarQuitacao = document.createElement('button');
-              botaoRegistrarQuitacao.textContent = 'Registrar Abatimento(em Breve)';
-              botaoRegistrarQuitacao.id = emprestimo.id; //
-              emprestimoItem.appendChild(botaoRegistrarQuitacao);*/
-            }
-  
+
             // Adicionar um botão para registrar o pagamento
             const botaoRegistrar = document.createElement('button');
             botaoRegistrar.textContent = 'Registrar Pagamento';
@@ -96,14 +84,59 @@ document.addEventListener('DOMContentLoaded', () => {
                       alert(`Esse empréstimo tem apenas ${parcelasRestantes} parcelas restantes. Por favor, escolha um valor menor!`);
                       return;
                     } else {
-                      inputValorPago.value = (inputParcelas.value * parcelaDiaria);
+                      inputValorPago.value = parseFloat(inputParcelas.value * parcelaDiaria).toFixed(2);
                       modalParcelas.style.display = 'none';
                       modalPagamento.style.display = 'block';
                     }
                   });
               });
             }
-            if (emprestimo.tipo === 'mensal') {
+  
+            emprestimoItem.innerHTML = infoEmprestimo;
+            emprestimoItem.appendChild(botaoRegistrar);
+            emprestimosContainer.appendChild(emprestimoItem);
+          }
+
+          
+          if (emprestimo.tipo === 'mensal') {
+            //console.log(emprestimo);
+            const emprestimoItem = document.createElement('div');
+            emprestimoItem.classList.add('emprestimo-item');
+            
+  
+            // Determinar o status do empréstimo (você precisará implementar a lógica)
+            let status = emprestimo.status; // Substitua pela lógica real para determinar o status
+  
+            // Adicionar a classe de status ao item do empréstimo
+            emprestimoItem.classList.add(status);
+  
+            // Formatar as informações do empréstimo
+            let infoEmprestimo = `
+              <strong>Modalidade:</strong> ${emprestimo.tipo === 'diario' ? 'Diário' : 'Mensal'}<br>
+              <strong>Nome:</strong> ${emprestimo.nome_cliente}<br>
+              <strong>Valor Entregue:</strong> R$ ${formatarValor(emprestimo.valor_total)}<br>
+              <strong>Taxa de Juros:</strong> ${emprestimo.taxa_juros}%<br>
+              <strong>Data de Início:</strong> ${formatarData(emprestimo.data_inicio)}<br>
+            `;
+
+              let mensal = (emprestimo.valor_total * (emprestimo.taxa_juros / 100));
+              //infoEmprestimo += `<strong>Data de Término:</strong> ${emprestimo.data_termino || 'Indefinida'}<br>`;
+              infoEmprestimo += `<strong>Parcela:</strong> R$ ${mensal.toFixed(2)} ${emprestimo.tipo === 'mensal' ? 'por mês' : 'por dia'}<br>`;
+
+            // Adicionar um botão para registrar o pagamento
+            const botaoRegistrar = document.createElement('button');
+            botaoRegistrar.textContent = 'Registrar Pagamento';
+            botaoRegistrar.id = emprestimo.id; //
+            // Adicionar um botão para registrar a quitação (apenas para empréstimos mensais)
+            const botaoRegistrarQuitacao = document.createElement('button');
+            botaoRegistrarQuitacao.textContent = 'Quitar Empréstimo';
+            botaoRegistrarQuitacao.id = emprestimo.id; //
+
+
+              // Adicionar um botão para registrar a quitacao (apenas para empréstimos mensais)
+              botaoRegistrarQuitacao.addEventListener('click', () => {
+                alert('Empréstimo quitado com sucesso!');
+              });
               botaoRegistrar.addEventListener('click', () => {
                 inputValorPago.value = (emprestimo.valor_total * (emprestimo.taxa_juros / 100));
                 //modalParcelas.style.display = 'none';
@@ -124,21 +157,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 //const parcelas = (totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria; // Calcula o valor das parcelas restantes
                 //console.log(parcelasRestantes);
                   //abrirModalParcelas(emprestimo.id, parcelasRestantes)
-                  btnConfirmarPagamento.addEventListener('click', () => {
+                  /*btnConfirmarPagamento.addEventListener('click', () => {
                     if (inputParcelas.value>parcelasRestantes) {
                       alert(`Esse empréstimo tem apenas ${parcelasRestantes} parcelas restantes. Por favor, escolha um valor menor!`);
                       return;
                     } else {
 
                     }
-                  });
+                  });*/
               });
-            }
   
             emprestimoItem.innerHTML = infoEmprestimo;
             emprestimoItem.appendChild(botaoRegistrar);
+            emprestimoItem.appendChild(botaoRegistrarQuitacao);
             emprestimosContainer.appendChild(emprestimoItem);
-
+          }
           });
         })
         .catch((error) => {
