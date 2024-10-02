@@ -4,11 +4,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const emprestimosContainer = document.getElementById('emprestimos-container');
     const modalPagamento = document.getElementById('modal-pagamento'); // Modal para registrar pagamento
     const modalParcelas = document.getElementById('modal-parcelas'); // Modal para escolher o número de parcelas
+    const modalMensal = document.getElementById('modal-mensal'); // Modal para escolher o número de parcelas
+    const modalMensalQuitacao = document.getElementById('modal-mensal-quitar');
+    const modalMensalAbatimento = document.getElementById('modal-mensal-abater');
     const inputIdEmprestimo = document.getElementById('id-emprestimo');
     const inputTipoEmprestimo = document.getElementById('tipo-emprestimo');
     const inputParcelas = document.getElementById('parcelas');
     const inputValorPago = document.getElementById('valor-pago');
+    const inputValorPagoQuitacao = document.getElementById('valor-pago-quitar');
+    const inputValorPagoAbatimento = document.getElementById('valor-pago-abater');
+    const inputHidenTotal = document.getElementById('total-emprestimo');
     const btnConfirmarPagamento = document.getElementById('btn-confirmar-pagamento');
+    const btnConfirmarAbatimento = document.getElementById('btn-confirmar-mensal');
+    const btnConfirmarAbatimentoParcial = document.getElementById('btn-registrar-pagamento-abater');
+    // Manipular o envio do formulário de pagamento
+    const btnQuitarMensal = document.getElementById('btn-quitar-mensal'); // Obter o botão pelo ID
+    const btnQuitarMensaIntegral = document.getElementById('btn-registrar-pagamento-quitar');
     buscarClientes('cliente');
   
     // Função para buscar os empréstimos do cliente
@@ -125,17 +136,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Adicionar um botão para registrar o pagamento
             const botaoRegistrar = document.createElement('button');
-            botaoRegistrar.textContent = 'Registrar Pagamento';
+            botaoRegistrar.textContent = 'Pagar Mensalidade';
             botaoRegistrar.id = emprestimo.id; //
             // Adicionar um botão para registrar a quitação (apenas para empréstimos mensais)
             const botaoRegistrarQuitacao = document.createElement('button');
-            botaoRegistrarQuitacao.textContent = 'Quitar Empréstimo';
+            botaoRegistrarQuitacao.textContent = 'Quitar/Reduzir Empréstimo';
             botaoRegistrarQuitacao.id = emprestimo.id; //
 
 
               // Adicionar um botão para registrar a quitacao (apenas para empréstimos mensais)
               botaoRegistrarQuitacao.addEventListener('click', () => {
-                alert('Empréstimo quitado com sucesso!');
+                modalMensal.style.display = 'block';
+                inputHidenTotal.value = parseFloat(emprestimo.valor_total);
+                inputIdEmprestimo.value = emprestimo.id;
+
               });
               botaoRegistrar.addEventListener('click', () => {
                 inputValorPago.value = (emprestimo.valor_total * (emprestimo.taxa_juros / 100));
@@ -144,27 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 //console.log('mensal')
                 inputIdEmprestimo.value = emprestimo.id;
                 inputTipoEmprestimo.value = emprestimo.tipo;
-                //Lógica de parcelas restantes   
-                const taxaJuros = emprestimo.taxa_juros;
-                const valorTotal = (emprestimo.valor_total * ((taxaJuros/100) + 1) );
-                const diasJuros = emprestimo.numero_dias;
-                const parcelaDiaria = valorTotal / diasJuros; // Calcula a parcela diária
-                const totalPago = emprestimo.valor_pago; // Obter o valor total pago
-                const parcelasRestantes = (valorTotal - totalPago)/ parcelaDiaria; // Obter o número de parcelas restantes
-
-                //const totalDeveriaEstarPago = parcelaDiaria * diasDecorridos; // Calcula o valor do pagamento diário
-                
-                //const parcelas = (totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria; // Calcula o valor das parcelas restantes
-                //console.log(parcelasRestantes);
-                  //abrirModalParcelas(emprestimo.id, parcelasRestantes)
-                  /*btnConfirmarPagamento.addEventListener('click', () => {
-                    if (inputParcelas.value>parcelasRestantes) {
-                      alert(`Esse empréstimo tem apenas ${parcelasRestantes} parcelas restantes. Por favor, escolha um valor menor!`);
-                      return;
-                    } else {
-
-                    }
-                  });*/
               });
   
             emprestimoItem.innerHTML = infoEmprestimo;
@@ -273,10 +266,86 @@ document.addEventListener('DOMContentLoaded', () => {
     inputParcelas.addEventListener('input', calcularValorPago);
   });
 
+
+  btnQuitarMensal.addEventListener('click', (event) => {
+    event.preventDefault(); // Impede o envio padrão do formulário
+    modalMensal.style.display = 'none';
+    modalMensalQuitacao.style.display = 'block';
+    inputValorPagoQuitacao.value = inputHidenTotal.value
+    return;
+  });
+
+  btnConfirmarAbatimento.addEventListener('click', (event) => {
+    event.preventDefault(); // Impede o envio padrão do formulário
+    modalMensalAbatimento.style.display = 'block';
+  });
+
+  btnConfirmarAbatimentoParcial.addEventListener('click', (event) => {
+    event.preventDefault(); // Impede o envio padrão do formulário
+    modalMensalAbatimento.style.display = 'none';
+    modalMensalQuitacao.style.display = 'none';
+    inputValorPagoAbatimento.value = inputHidenTotal.value
+    alert('Função em desenvolvimento')
+
+
+
+
+
+
+
+    
+  });
+
+  btnQuitarMensaIntegral.addEventListener('click', (event) => {
+    event.preventDefault(); // Impede o envio padrão do formulário
+
+    const id_emprestimo = inputIdEmprestimo.value;
+    const valor_pagamento = inputValorPagoQuitacao.value;
+
+    // Criar objeto com os dados do pagamento
+    const pagamento = {
+      id_emprestimo: id_emprestimo,
+      status: 'quitado',
+    };
+    //console.log(pagamento);
+
+      // Fazer requisição POST para a API
+      fetch('/registrar-pagamento/mensal-quitar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('token'),
+        },
+        body: JSON.stringify(pagamento),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na requisição.');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Pagamento registrado com sucesso!
+          alert(data.message || 'Pagamento registrado com sucesso!');
+          modalMensalQuitacao.style.display = 'none';
+          buscarEmprestimos(selectCliente.value); // Atualiza a lista de empréstimos
+        })
+        .catch((error) => {
+          console.error('Erro ao registrar pagamento:', error);
+          alert('Erro ao registrar pagamento. Por favor, tente novamente.');
+        });
+  });
+
     // Função para abrir o modal de escolha de parcelas
     function abrirModalParcelas(idEmprestimo, parcelasRestantes) {
       inputIdEmprestimo.value = idEmprestimo;
       inputParcelas.max = parcelasRestantes; // Define o máximo de parcelas que podem ser selecionadas
+      modalParcelas.style.display = 'block';
+    }
+
+    function abrirModalMensal(idEmprestimo, valorTotalEmprestimo) {
+      //inputIdEmprestimo.value = idEmprestimo;
+      //inputParcelas.max = valorTotalEmprestimo; // Define o máximo de parcelas que podem ser selecionadas
       modalParcelas.style.display = 'block';
     }
   
@@ -292,15 +361,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
    // Função para fechar o modal
-function fecharModal(modal) {
-  modal.style.display = 'none';
-}
+    function fecharModal(modal) {
+      modal.style.display = 'none';
+    }
 
-// Adicionar ouvinte de evento ao botão "x"
-const botaoFecharModal = modalParcelas.querySelector('.close');
-botaoFecharModal.addEventListener('click', () => {
-  fecharModal(modalParcelas);
-});
-      
-
+    // Adicionar ouvinte de evento ao botão "x"
+    const botaoFecharModal = modalParcelas.querySelector('.close');
+    const botaoFecharModalPagamento = modalPagamento.querySelector('.close');
+    const botaoFecharModalMensal = modalMensal.querySelector('.close');
+    const botaoFecharModalMensalQuitacao = modalMensalQuitacao.querySelector('.close');
+    const botaoFecharModalMensalAbatimento = modalMensalAbatimento.querySelector('.close');
+    botaoFecharModalMensalAbatimento.addEventListener('click', () => {
+      fecharModal(modalMensalAbatimento);
+    });
+    botaoFecharModalPagamento.addEventListener('click', () => {
+      fecharModal(modalPagamento);
+    });
+    botaoFecharModalMensal.addEventListener('click', () => {
+      fecharModal(modalMensal);
+    });
+    botaoFecharModalMensalQuitacao.addEventListener('click', () => {
+      fecharModal(modalMensalQuitacao);
+    });
+    botaoFecharModalPagamento.addEventListener('click', () => {
+      fecharModal(modalPagamento);
+    });
+    botaoFecharModal.addEventListener('click', () => {
+      fecharModal(modalParcelas);
+    });
 });

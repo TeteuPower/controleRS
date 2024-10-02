@@ -32,10 +32,56 @@
             </div>
         </div>
 
+        <!-- Modal diminuir empréstimo mensal -->
+        <div id="modal-mensal" class="modal">
+            <div class="modal-content">
+                <span class="close">×</span>
+                <h2 class = "modal-title">Parcialmente ou total?</h2>
+                <input type="hidden" id="id-emprestimo" name="id-emprestimo">
+                <input type="hidden" id="total-emprestimo" name="id-emprestimo">
+                <div class = "botoes-modal">
+                <button id="btn-confirmar-mensal">Deduzir parcialmente da dívida total</button>
+                <button id="btn-quitar-mensal">Finalizar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para quitar empréstimo mensal -->
+        <div id="modal-mensal-quitar" class="modal">
+            <div class="modal-content">
+                <span class="close">×</span>
+                <h2>Confirmar Abatimento</h2>
+                <p>Não se esqueça de cobrar os juros correspondentes até o dia de hoje.</p>
+                <input type="hidden" id="id-emprestimo" name="id-emprestimo">
+                <input type="hidden" id="total-emprestimo-quitar" name="tipo-emprestimo">
+                <div class="input-group">
+                    <label for="valor-pago-quitar">Valor Pago (R$):</label>
+                    <input type="number" id="valor-pago-quitar" name="valor-pago" readonly>
+                </div>
+                <button id="btn-registrar-pagamento-quitar">Registrar Pagamento</button>
+            </div>
+        </div>
+
+        <!-- Modal para abater um empréstimo mensal -->
+        <div id="modal-mensal-abater" class="modal">
+            <div class="modal-content">
+                <span class="close">×</span>
+                <h2>Confirmar Abatimento</h2>
+                <p>A nova parcela será calculada em cima do novo valor do empréstimo! Cobre os juros correspondentes até o dia de hoje.</p>
+                <input type="hidden" id="id-emprestimo" name="id-emprestimo">
+                <input type="hidden" id="total-emprestimo-abater" name="tipo-emprestimo">
+                <div class="input-group">
+                    <label for="valor-pago-abater">Valor Pago de abatimento (R$):</label>
+                    <input type="number" id="valor-pago-abater" name="valor-pago">
+                </div>
+                <button id="btn-registrar-pagamento-abater">Registrar abatimento</button>
+            </div>
+        </div>
+
         <!-- Modal para confirmar o pagamento -->
         <div id="modal-pagamento" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="modalPagamento.style.display='none'">×</span>
+                <span class="close">×</span>
                 <h2>Confirmar Pagamento</h2>
                 <input type="hidden" id="id-emprestimo" name="id-emprestimo">
                 <input type="hidden" id="tipo-emprestimo" name="tipo-emprestimo">

@@ -208,6 +208,17 @@ body {
     border-radius: 5px; /* Borda arredondada */
     color: #eee; /* Cor do texto */
   }
+
+  .modal-title {
+    padding: 10px 16px;
+    color: #eee; /* Cor do texto do cabeçalho */
+    text-align: center;
+  }
+
+  .botoes-modal {
+    display: flex;
+    justify-content: center;
+  }
   
   .close {
     color: #eee; /* Cor do botão "Fechar" */
@@ -270,6 +281,7 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-right: 10px; /* Adiciona margem à direita */
+    margin-bottom: 10px; /* Adiciona margem inferior */
   }
   
   button:hover {
