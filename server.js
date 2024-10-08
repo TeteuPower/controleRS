@@ -13,6 +13,12 @@ require('dotenv').config(); // Carrega as variáveis do .env
 // Definir o fuso horário
 process.env.TZ = 'America/Sao_Paulo';
 
+// Rota para obter a hora do servidor
+app.get('/api/hora-servidor', (req, res) => {
+    const hora = new Date().toLocaleString(); // Obtém a hora do servidor no formato local
+    res.json({ hora });
+});
+
 // Middleware para processar o corpo das requisições POST
 app.use(bodyParser.json()); 
 

@@ -292,3 +292,11 @@ button {
     background-color: #ccc; /* Cor de fundo do botão desabilitado */
     cursor: not-allowed; /* Cursor de "não permitido" */
   }
+
+  .hora-servidor {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #eee;
+    font-weight: bold;
+}

@@ -153,3 +153,27 @@ function formatarValor(valor) {
   const decimal = partes[1];
   return inteiro + ',' + decimal; // Junta as partes com vírgula
 }
+
+async function obterHoraServidor() {
+  return fetch('/api/hora-servidor')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Erro ao obter a hora do servidor.');
+          }
+          return response.json();
+      })
+      .then(data => {
+          return data.hora;
+      })
+      .catch(error => {
+          console.error('Erro ao obter a hora do servidor:', error);
+          return 'Erro ao obter a hora';
+      });
+}
+
+function atualizarHoraServidor() {
+  obterHoraServidor()
+      .then(hora => {
+          document.getElementById('hora-servidor').textContent = `Hora do Servidor: ${hora}`;
+      });
+}
