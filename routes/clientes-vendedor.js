@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); // Importe a conexão com o banco de dados
+const { db } = require('../db'); // Importe a conexão com o banco de dados
 const autenticar = require('../middleware/auth'); // Importe o middleware de autenticação
 
 router.get('/', autenticar, (req, res) => {

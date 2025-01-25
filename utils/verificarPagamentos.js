@@ -1,5 +1,5 @@
 // utils/verificarPagamentos.js
-const db = require('../db'); // Importe a conexão com o banco de dados
+const { db } = require('../db'); // Importe a conexão com o banco de dados
 const cron = require('node-cron'); // Importe a biblioteca node-cron
 
 // Função para verificar os pagamentos

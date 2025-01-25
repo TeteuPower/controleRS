@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const db = require('../db'); // Importe a conexão com o banco de dados
+const { db } = require('../db'); // Importe a conexão com o banco de dados
 
 router.post('/', async (req, res) => {
   const { senhaAtual, novaSenha, confirmarSenha } = req.body;

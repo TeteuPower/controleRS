@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const db = require('./db'); // Importa o módulo de conexão com o banco de dados
+const { db } = require('./db'); // Importa o módulo de conexão com o banco de dados
 const app = express();
 const jwt = require('jsonwebtoken'); // Importa o módulo jsonwebtoken
 const request = require('request')

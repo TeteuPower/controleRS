@@ -1,4 +1,4 @@
-const db = require('../db'); // Importe a conexão com o banco de dados
+const { db } = require('../db'); // Importe a conexão com o banco de dados
 
 // Função para verificar os pagamentos
 async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
