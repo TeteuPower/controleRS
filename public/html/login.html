@@ -3,27 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistema de Empréstimos</title>
+    <title>Em? Presta? Empresta!</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link href='https://unicons.iconscout.com/release/v2.1.9/css/unicons.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <div class="container">
-        <div class="form-box">
-            <h1>Login</h1>
-            <form id="login-form">
-                <div class="input-group">
-                    <label for="username">Usuário:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="input-group">
-                    <label for="password">Senha:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit">Entrar</button>
-            </form>
-        </div>
-    </div>
+	<div class="section">
+		<div class="container">
+			<div class="row full-height justify-content-center">
+				<div class="col-12 text-center align-self-center py-5">
+					<div class="section pb-5 pt-5 pt-sm-2 text-center">
+						<h6 class="mb-0 pb-3 botoes-login"><span id="entrarSpan">Entrar </span><span id="cadastrarSpan">Cadastrar</span></h6>
+						  <input class="checkbox botoes-login" type="checkbox" id="reg-log" name="reg-log"/>
+						  <label for="reg-log"></label>
+						<div class="card-3d-wrap mx-auto">
+							<div class="card-3d-wrapper">
+								<div class="card-front">
+									<div class="center-wrap">
+										<div class="section text-center">
+											<h4 class="mb-4 pb-3">Entrar</h4>
+											<div class="form-group">
+												<input type="email" name="logemail" class="form-style" placeholder="Digite seu email" id="logemail" autocomplete="off" style="font-size: 16px;">
+												<i class="input-icon uil uil-at"></i>
+											</div>	
+											<div class="form-group mt-2">
+												<input type="password" name="logpass" class="form-style" placeholder="Digite sua senha" id="logpass" autocomplete="off" style="font-size: 16px;">
+												<i class="input-icon uil uil-lock-alt"></i>
+											</div>
+											
+											<a href="/" class="btn mt-4">Cancelar</a>
+											<a href="#" class="btn mt-4" onclick="login()">Entrar</a>
+											<p class="mb-0 mt-4 text-center"><a href="" class="link" id="esqueceu-senha">Esqueceu sua senha?</a></p>
+										  </div>
+									  </div>
+								  </div>
+								<div class="card-back">
+									<div class="center-wrap">
+										<div class="section text-center">
+											<h4 class="mb-4 pb-3">Novo Usuário</h4>
+											<div class="form-group">
+												<input type="text" name="logname" class="form-style" placeholder="Primeiro nome" id="logname" autocomplete="off" style="font-size: 16px;">
+												<i class="input-icon uil uil-user"></i>
+											</div>	
+											<div class="form-group mt-2">
+												<input type="email" name="logemail" class="form-style" placeholder="Seu Email" id="new-logemail" autocomplete="off" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" style="font-size: 16px;" required>
+												<i class="input-icon uil uil-at"></i>
+											</div>	
+											<div class="form-group mt-2">
+												<input type="password" name="logpass" class="form-style" placeholder="Digite sua senha" id="new-logpass" autocomplete="off" style="font-size: 16px;">
+												<i class="input-icon uil uil-lock-alt"></i>
+											</div>
+											<div class="form-group mt-2">
+												<input type="password" name="logpass" class="form-style" placeholder="Confirme sua senha" id="confirm-new-logpass" autocomplete="off" style="font-size: 16px;">
+												<i class="input-icon uil uil-lock-alt"></i>
+											</div>
+											<button type="submit" class="btn mt-4" onclick="cadastrarUsuario()">Cadastrar</button>
+										  </div>
+									  </div>
+								  </div>
+							  </div>
+						  </div>
+					  </div>
+				  </div>
+			  </div>
+		</div>
+	</div>
 
     <script src="../js/login.js"></script>
+	<!-- <script src="../js/novo_usuario.js"></script> -->
 </body>
 </html>
