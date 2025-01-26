@@ -62,31 +62,9 @@ function login() {
 
 function jaEstaLogado() {
     const token = localStorage.getItem('token');
-    const admId = localStorage.getItem('administrador');
-    const tokenUser = localStorage.getItem('tokenUser');
-
-    if (token && tokenUser) {
-        alert('Você está logado com a conta de administrador e de cliente, será deslogada as duas contas');
-        //remove token from local storage
-        localStorage.removeItem('token');
-        localStorage.removeItem('tokenUser');
-        localStorage.removeItem('administrador');
-        localStorage.removeItem('administradorNome');
-    }
-
     if (token) {
-        if (admId === '1') {
-            alert('Você está logado!');
-            window.location.href = '/adm/consultar_pedidos';
-        } else {
-            alert('Você está logado!');
-            window.location.href = '/adm/pagina_inicial';
-        }
-    }
-
-    if (tokenUser) {
-        alert('Você está logado!');
-        window.location.href = '/menu';
+        alert('Você já está logado!');
+        window.location.href = '/html/dashboard.html';
     }
 }
 

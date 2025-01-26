@@ -117,6 +117,10 @@ function verificarAutenticacao() {
       .then(response => {
           if (!response.ok) {
               alert('Token de segurança vencido, faça o login novamente');
+              localStorage.removeItem('token');
+              localStorage.removeItem('vendedor_id');
+              localStorage.removeItem('vendedor_nome');
+              localStorage.removeItem('vendedor_usuario');
               window.location.href = '/';
           }
       })
