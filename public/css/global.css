@@ -9,13 +9,13 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #222; /* Cor de fundo do body */
+    background-color: #000f31; /* Cor de fundo do body */
     color: #eee; /* Cor do texto padrão */
 }
 
 /* Container principal - Aplicado em todas as páginas */
 .container {
-    background-color: #333;
+    background-color: #00081b;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para efeito 3D */
@@ -56,7 +56,7 @@ body {
 }
 
 .admin-menu {
-    background-color: #222;
+    background-color: #00081b;
     color: #eee;
     padding: 20px;
 }
@@ -147,6 +147,12 @@ body {
 
 /* Media Queries - Responsividade */
 @media (max-width: 1096px) {
+
+    .container {
+    margin-right: 10px;
+    margin-left: 10px;
+    }
+
     .hamburger-menu {
         display: block;
     }
