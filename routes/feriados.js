@@ -4,9 +4,11 @@ const { db } = require('../db'); // Importe a conexão com o banco de dados
 const autenticar = require('../middleware/auth'); // Importe o middleware de autenticação
 
 router.get('/', autenticar, async (req, res) => {
+  //resgata id do usuário
+  const idVendedor = req.usuario.id;
   try {
-    const sql = 'SELECT id, data FROM feriados ORDER BY data';
-    const [feriados] = await db.promise().query(sql);
+    const sql = 'SELECT id, data FROM feriados WHERE vendedor = ? ORDER BY data';
+    const [feriados] = await db.promise().query(sql, [idVendedor]);
 
     return res.json(feriados);
   } catch (error) {
@@ -17,6 +19,7 @@ router.get('/', autenticar, async (req, res) => {
 
 router.post('/', autenticar, async (req, res) => {
     const { data_feriado } = req.body;
+    const idVendedor = req.usuario.id;
   
     try {
       // 1. Validações (adicione mais validações conforme necessário)
@@ -25,8 +28,8 @@ router.post('/', autenticar, async (req, res) => {
       }
   
       // 2. Inserir o novo feriado no banco de dados
-      const sql = 'INSERT INTO feriados (data) VALUES (?)';
-      const [result] = await db.promise().query(sql, [data_feriado]);
+      const sql = 'INSERT INTO feriados (data, vendedor) VALUES (?, ?)';
+      const [result] = await db.promise().query(sql, [data_feriado, idVendedor]);
   
       return res.status(201).json({ message: 'Feriado adicionado com sucesso.' });
     } catch (error) {
@@ -37,10 +40,12 @@ router.post('/', autenticar, async (req, res) => {
 
 router.delete('/:idFeriado', autenticar, async (req, res) => {
     const idFeriado = req.params.idFeriado;
+    const idVendedor = req.usuario.id;
+  
     try {
       // 1. Remover o feriado do banco de dados
-      const sql = 'DELETE FROM feriados WHERE id = ?';
-      const [result] = await db.promise().query(sql, [idFeriado]);
+      const sql = 'DELETE FROM feriados WHERE id = ? AND vendedor = ?';
+      const [result] = await db.promise().query(sql, [idFeriado, idVendedor]);
   
       if (result.affectedRows === 0) {
         return res.status(404).json({ error: 'Feriado não encontrado.' });
