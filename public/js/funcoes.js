@@ -28,9 +28,7 @@ function carregarHeader() {
 
         // Remove o token do Local Storage
         localStorage.removeItem('token');
-        localStorage.removeItem('vendedor_id');
         localStorage.removeItem('vendedor_nome');
-        localStorage.removeItem('vendedor_usuario');
 
         // Redireciona para a página de login
         window.location.href = '/';
@@ -41,9 +39,7 @@ function carregarHeader() {
 
         // Remove o token do Local Storage
         localStorage.removeItem('token');
-        localStorage.removeItem('vendedor_id');
         localStorage.removeItem('vendedor_nome');
-        localStorage.removeItem('vendedor_usuario');
 
         // Redireciona para a página de login
         window.location.href = '/';
@@ -118,9 +114,7 @@ function verificarAutenticacao() {
           if (!response.ok) {
               alert('Token de segurança vencido, faça o login novamente');
               localStorage.removeItem('token');
-              localStorage.removeItem('vendedor_id');
               localStorage.removeItem('vendedor_nome');
-              localStorage.removeItem('vendedor_usuario');
               window.location.href = '/';
           }
       })

@@ -60,11 +60,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           .then((data) => {
             // Nome de usuário alterado com sucesso!
             alert(data.message || 'Nome de usuário alterado com sucesso!');
-            // Atualizar o nome de usuário no frontend, se necessário
-            if (inputUsuarioAtual) {
-              inputUsuarioAtual.value = novoUsuario;
-              localStorage.setItem('vendedor_usuario', novoUsuario);
-            }
+            // Atualizar o nome de usuário no frontend
+            inputUsuarioAtual.value = novoUsuario;
           })
           .catch((error) => {
             console.error('Erro ao mudar nome de usuário:', error);
