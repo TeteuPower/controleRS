@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const autenticar = require('../middleware/auth');
 const { db } = require('../db'); // Importe a conexão com o banco de dados
 
-router.post('/', async (req, res) => {
-  const { nome, endereco, telefone, documento, informacoes, id_vendedor } = req.body; 
+router.post('/', autenticar, async (req, res) => {
+  const { nome, endereco, telefone, documento, informacoes } = req.body; 
+  const id_vendedor = req.usuario.id;
 
   try {
     // 1. Validações (adicione mais validações conforme necessário)
