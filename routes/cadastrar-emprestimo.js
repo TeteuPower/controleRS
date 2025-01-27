@@ -5,8 +5,8 @@ const autenticar = require('../middleware/auth'); // Importe o middleware de aut
 const verificarStatusEmprestimo = require('../utils/verificarStatusEmprestimo');
 
 router.post('/', autenticar, (req, res) => {
-  const { id_cliente, valor, juros, data_inicio, tipo_emprestimo, dias, vendedor_id } = req.body;
-  const idVendedor = req.usuario.id; // Obtém o ID do vendedor do token JWT
+  const { id_cliente, valor, juros, data_inicio, tipo_emprestimo, dias } = req.body;
+  const vendedor_id = req.usuario.id; // Obtém o ID do vendedor do token JWT
   const status = 'ativo';
 
   try {
