@@ -1,14 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   verificarAutenticacao();
     const formMudarUsuario = document.getElementById('form-mudar-usuario');
     const inputUsuarioAtual = document.getElementById('usuario-atual'); 
   
-    // Obter o nome de usuário atual (você precisará implementar a lógica para isso)
-    const usuarioAtual = localStorage.getItem('vendedor_usuario'); 
+    // Consulta na tabela de vendedores para obter usuario atual do vendedor usando token jwt
+    const response = await fetch('/mudar-usuario', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token'), // Adiciona o token no header
+      },
+    })
+    const usuarioAtual = await response.json();
+    if (!usuarioAtual) {
+      throw new Error('Não foi possível recuperar o nome do usuário atual.');
+    }
+
   
     // Preencher o campo "Usuário Atual"
     if (inputUsuarioAtual) {
-      inputUsuarioAtual.value = usuarioAtual;
+      inputUsuarioAtual.value = usuarioAtual.email;
     }
   
     if (formMudarUsuario) {

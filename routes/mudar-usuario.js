@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const autenticar = require('../middleware/auth'); // Importe o middleware de autenticação
 const { db } = require('../db'); // Importe a conexão com o banco de dados
 
-router.post('/', async (req, res) => {
+router.post('/', autenticar, async (req, res) => {
   const { novoUsuario } = req.body;
   const idVendedor = req.usuario.id; // Obtém o ID do vendedor do token JWT
 
@@ -33,6 +34,26 @@ router.post('/', async (req, res) => {
     console.error('Erro ao mudar nome de usuário:', error);
     return res.status(500).json({ error: 'Erro ao processar a solicitação.' });
   }
+});
+
+// Retorna email atual pelo id de usuário do token
+router.get('/', autenticar, async (req, res) => {
+  const idVendedor = req.usuario.id; // Obtém o ID do vendedor do token JWT
+
+  const sql = 'SELECT usuario FROM vendedores WHERE id = ?';
+  db.query(sql, [idVendedor], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar email:', err);
+      return res.status(500).json({ error: 'Erro ao buscar email.' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Vendedor não encontrado.' });
+    }
+
+    const email = results[0].usuario;
+    return res.json({ email });
+  });
 });
 
 // Função auxiliar para verificar se o usuário já existe
