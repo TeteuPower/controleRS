@@ -40,6 +40,7 @@ async function verificarPagamentos() {
         // 3. Verificar se o empréstimo está em dia ou atrasado
         //console.log(emprestimo);
         const dataInicio = new Date(emprestimo.data_inicio); // Manter a data de início original
+        dataInicio.setDate(dataInicio.getDate() + 1); // Começa a contar no próximo dia!
         const dataAtual = new Date();
         let diasDecorridos = 0;
 

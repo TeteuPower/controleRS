@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
             // Formatar as informações do empréstimo
             let infoEmprestimo = `
-              <strong>Modalidade:</strong> ${emprestimo.tipo === 'diario' ? 'Diário' : 'Mensal'}<br>
+              <strong>Modalidade:</strong> ${emprestimo.tipo === 'diario' ? 'Diário' : 'Mensal'} <strong>ID:</strong> ${emprestimo.id}<br>
               <strong>Nome:</strong> ${emprestimo.nome_cliente}<br>
               <strong>Valor Entregue:</strong> R$ ${formatarValor(emprestimo.valor_total)}<br>
               <strong>Taxa de Juros:</strong> ${emprestimo.taxa_juros}%<br>
@@ -65,8 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
   
               let diario = (emprestimo.valor_total * ((emprestimo.taxa_juros / 100) + 1))/emprestimo.numero_dias;
-              infoEmprestimo += `<strong>Parcelas:</strong> ${parseInt(emprestimo.valor_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias}<br>`;
-              infoEmprestimo += `<strong>Valor:</strong> R$ ${diario.toFixed(2)} por dia<br>`;
+              infoEmprestimo += `<strong>Parcelas:</strong> ${Math.round(emprestimo.valor_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias}, R$ ${diario.toFixed(2)} p/dia<br>`;
+              infoEmprestimo += `<strong>Valor já pago:</strong> R$ ${emprestimo.valor_pago}<br>
+              <strong>Status:</strong> ${status}<br>`;
+
+              console.log(emprestimo.id, emprestimo.valor_pago);
 
             // Adicionar um botão para registrar o pagamento
             const botaoRegistrar = document.createElement('button');
@@ -92,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   abrirModalParcelas(emprestimo.id, parcelasRestantes)
                   btnConfirmarPagamento.addEventListener('click', () => {
                     if (inputParcelas.value>parcelasRestantes) {
-                      alert(`Esse empréstimo tem apenas ${parcelasRestantes} parcelas restantes. Por favor, escolha um valor menor!`);
+                      alert(`Esse empréstimo tem apenas ${Math.round(parcelasRestantes)} parcelas restantes. Por favor, escolha um valor menor!`);
                       return;
                     } else {
                       inputValorPago.value = parseFloat(inputParcelas.value * parcelaDiaria).toFixed(2);
@@ -123,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
             // Formatar as informações do empréstimo
             let infoEmprestimo = `
-              <strong>Modalidade:</strong> ${emprestimo.tipo === 'diario' ? 'Diário' : 'Mensal'}<br>
+              <strong>Modalidade:</strong> ${emprestimo.tipo === 'diario' ? 'Diário' : 'Mensal'} <strong>ID:</strong> ${emprestimo.id}<br>
               <strong>Nome:</strong> ${emprestimo.nome_cliente}<br>
               <strong>Valor Entregue:</strong> R$ ${formatarValor(emprestimo.valor_total)}<br>
               <strong>Taxa de Juros:</strong> ${emprestimo.taxa_juros}%<br>
@@ -132,7 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
               let mensal = (emprestimo.valor_total * (emprestimo.taxa_juros / 100));
               //infoEmprestimo += `<strong>Data de Término:</strong> ${emprestimo.data_termino || 'Indefinida'}<br>`;
-              infoEmprestimo += `<strong>Parcela:</strong> R$ ${mensal.toFixed(2)} ${emprestimo.tipo === 'mensal' ? 'por mês' : 'por dia'}<br>`;
+              infoEmprestimo += `<strong>Parcela:</strong> R$ ${mensal.toFixed(2)} ${emprestimo.tipo === 'mensal' ? 'por mês' : 'por dia'}<br>
+              <strong>Lucro:</strong> R$ ${formatarValor(emprestimo.valor_pago)}<br>
+              <strong>Status:</strong> ${status}<br>
+            `;
 
             // Adicionar um botão para registrar o pagamento
             const botaoRegistrar = document.createElement('button');

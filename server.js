@@ -104,7 +104,7 @@ app.post('/api/login', (req, res) => {
             const senhaValida = await bcrypt.compare(senha, administrador.senha); 
 
             if (senhaValida) {
-                const token = jwt.sign({ id: administrador.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                const token = jwt.sign({ id: administrador.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
                 return res.json({ token, id: administrador.id, nome: administrador.nome, usuario: administrador.usuario });
             } else {
                 return res.status(401).json({ error: 'Senha incorreta.' });
