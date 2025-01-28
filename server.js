@@ -56,7 +56,7 @@ app.get('/teste', (req, res) => {
 })
 
 // API para cadastrar vendedores
-app.use('/cadastrar-vendedor', autenticar, require('./routes/cadastrar-vendedor'));
+app.use('/cadastrar-vendedor', require('./routes/cadastrar-vendedor'));
 // API para cadastrar clientes
 app.use('/cadastrar-cliente', autenticar, require('./routes/cadastrar-cliente'));
 // API para mudar senha
