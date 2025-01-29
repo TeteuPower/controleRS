@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const informacoes = document.getElementById('informacoes').value;
   
         // Validações básicas do lado do cliente 
-        if (!nome || !id_vendedor) {
-          alert('Por favor, preencha os campos obrigatórios (Nome e ID do Vendedor).');
+        if (!nome) {
+          alert('Por favor, preencha o nome do cliente.');
           return;
         }
   
