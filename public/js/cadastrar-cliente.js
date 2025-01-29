@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
           telefone: telefone,
           documento: documento,
           informacoes: informacoes,
-          id_vendedor: id_vendedor,
         };
   
         // Fazer requisição POST para a API com o token de autenticação
