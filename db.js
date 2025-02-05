@@ -42,9 +42,9 @@ function getConnection() {
 }
 
 // Cria a conexão inicial
-let connection = getConnection();
+//let connection = getConnection();
 
 module.exports = {
     db,
-    connection
+    getConnection
 };

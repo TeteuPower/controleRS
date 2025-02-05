@@ -149,7 +149,19 @@ app.post('/api/atualizar-status', autenticar, async (req, res) => {
   });
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor em execução na porta ${PORT}`);
+db.getConnection((err, connection) => {
+    if (err) {
+        console.error('Erro ao conectar ao banco de dados:', err);
+        // Lógica para tentar se reconectar
+        process.exit(1); // Encerra o aplicativo em caso de erro de conexão
+    } else {
+        console.log('Conexão com o banco de dados estabelecida.');
+        connection.release(); // Libera a conexão de volta para o pool
+
+        // Inicia o servidor somente após a conexão bem-sucedida
+        const PORT = process.env.PORT || 3000;
+        app.listen(PORT, () => {
+            console.log(`Servidor em execução na porta ${PORT}`);
+        });
+    }
 });
