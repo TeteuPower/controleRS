@@ -17,7 +17,8 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
           ed.taxa_juros,
           COALESCE(SUM(pd.valor_pago), 0) AS valor_pago, -- Calcula a soma
           ed.status,
-          ed.id_vendedor
+          ed.id_vendedor,
+          (COALESCE(SUM(pd.valor_pago), 0) / (ed.valor_total * (((ed.taxa_juros / 100)+1)/ed.numero_dias))) AS parcelas_pagas
         FROM 
           emprestimos_diarios ed
         LEFT JOIN
@@ -42,21 +43,27 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
         const sqlTodosFeriados = 'SELECT data FROM feriados WHERE vendedor = ?';
         const [todosFeriados] = await db.promise().query(sqlTodosFeriados, [emprestimo.id_vendedor]);
         const feriados = todosFeriados.map(f => f.data.toISOString().slice(0, 10)); // Array de datas de feriados no formato 'YYYY-MM-DD'
-        console.log(feriados);
+        //console.log('Feriados considerados para esse empréstimo: ',feriados);
 
         // Iterar sobre os dias entre a data de início e a data atual
+        let diasDePagamento = []; //Array que vai armazenar os dias que foram considerados úteis para o pagamento do empréstimo
         for (let data = new Date(dataInicio); data <= dataAtual; data.setDate(data.getDate() + 1)) {
           const diaSemana = data.getDay(); // 0 (Domingo) - 6 (Sábado)
           if (diaSemana !== 0) { // Se não for domingo
             // Verificar se a data é feriado
             const dataString = data.toISOString().slice(0, 10);
             if (!feriados.includes(dataString)) { // Verificação mais rápida!
-              console.log('Dia de Pagamento', data.toISOString().slice(0, 10));
+              //console.log('Dia de Pagamento', data.toISOString().slice(0, 10));
+              diasDePagamento.push(dataString); // Adiciona o dia ao array
               diasDecorridos++;
             }
           }
         }
-        console.log(diasDecorridos);
+        //console.log('Dias de Pagamento:', diasDePagamento);
+        const diasAtrasado = parseFloat(diasDePagamento.length) - parseFloat(emprestimo.parcelas_pagas);
+        //console.log(diasDePagamento.length, emprestimo.parcelas_pagas);
+        //console.log('Dias atrasado:', diasAtrasado);
+        //console.log(diasDecorridos);
         // Iterar sobre os dias entre a data de início e a data atual
         /*for (let data = new Date(dataInicio); data <= dataAtual; data.setDate(data.getDate() + 1)) {
           const diaSemana = data.getDay(); // 0 (Domingo) - 6 (Sábado)
@@ -87,7 +94,7 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
         const totalEstaPago = emprestimo.valor_pago; // Obter o valor total pago
   
         const parcelas = Math.round((totalEstaPago - totalDeveriaEstarPago)/ parcelaDiaria); // Calcula o valor das parcelas restantes
-        console.log(parcelas);
+        //console.log(parcelas);
         //console.log('totalEstaPago:', totalEstaPago,'totalDeveriaEstarPago:', totalDeveriaEstarPago, 'parcelas:', parcelas, 'valorTotalComJuros:', valorTotalComJuros);
         //// 5. Atualizar o status do empréstimo
         if(parseFloat(totalEstaPago) === parseFloat(valorTotalComJuros)) {
@@ -98,8 +105,8 @@ async function verificarStatusEmprestimo(idEmprestimo, tipo_emprestimo) {
         } else {
           if (parcelas < -1) {
             // Atualizar o status para 'atrasado'
-            const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ? WHERE id = ?';
-            await db.promise().query(sqlAtualiza, ['atrasado', emprestimo.id]);
+            const sqlAtualiza = 'UPDATE emprestimos_diarios SET status = ?, dias_atraso = ? WHERE id = ?';
+            await db.promise().query(sqlAtualiza, ['atrasado', diasAtrasado, emprestimo.id]);
             console.log(`Empréstimo diário ID:${emprestimo.id} atualizado para 'atrasado'.`);
           } else if (parcelas === -1) {
             // Atualizar o status para 'aguardando'

@@ -16,7 +16,8 @@ router.get('/', autenticar, (req, res) => {
       em.data_inicio,
       em.data_termino, 
       em.status,
-      (SELECT SUM(valor_pago) FROM pagamentos_mensais WHERE id_emprestimo = em.id) AS total_pago
+      (SELECT SUM(valor_pago) FROM pagamentos_mensais WHERE id_emprestimo = em.id) AS total_pago,
+      (em.valor_total * (em.taxa_juros / 100)) AS parcela
     FROM 
       emprestimos_mensais em
     JOIN 

@@ -64,12 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
               <strong>Data de Início:</strong> ${formatarData(emprestimo.data_inicio)}<br>
             `;
   
-              let diario = (emprestimo.valor_total * ((emprestimo.taxa_juros / 100) + 1))/emprestimo.numero_dias;
-              infoEmprestimo += `<strong>Parcelas:</strong> ${Math.round(emprestimo.valor_pago / (emprestimo.valor_total * (((emprestimo.taxa_juros / 100)+1)/emprestimo.numero_dias)))} de ${emprestimo.numero_dias}, R$ ${diario.toFixed(2)} p/dia<br>`;
+              //let diario = (emprestimo.valor_total * ((emprestimo.taxa_juros / 100) + 1))/emprestimo.numero_dias;
+              let diario = parseFloat(emprestimo.valor_parcela);
+              //console.log(emprestimo);
+              infoEmprestimo += `<strong>Parcelas:</strong> ${Math.round(parseFloat(emprestimo.valor_pago) / diario)} de ${emprestimo.numero_dias}, R$ ${diario.toFixed(2)} p/dia<br>`;
               infoEmprestimo += `<strong>Valor já pago:</strong> R$ ${emprestimo.valor_pago}<br>
               <strong>Status:</strong> ${status}<br>`;
 
-              console.log(emprestimo.id, emprestimo.valor_pago);
+              //console.log(emprestimo.id, emprestimo.valor_pago);
 
             // Adicionar um botão para registrar o pagamento
             const botaoRegistrar = document.createElement('button');

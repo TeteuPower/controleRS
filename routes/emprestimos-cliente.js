@@ -43,6 +43,7 @@ router.get('/:idCliente', autenticar, (req, res) => {
       COALESCE(SUM(pd.valor_pago), 0) AS valor_pago,
       ed.numero_dias, 
       ed.status,
+      (ed.valor_total * ((ed.taxa_juros / 100) + 1))/ed.numero_dias AS valor_parcela,
       c.nome AS nome_cliente
     FROM 
       emprestimos_diarios ed
