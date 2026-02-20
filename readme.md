@@ -66,9 +66,9 @@ Como parte de um processo de evolução contínua, algumas melhorias poderiam se
 
 ## 📬 Contato
 
-**[Matheus Tavares]**
+**Matheus Tavares**
 
 *   **LinkedIn:** [https://www.linkedin.com/in/matheustavares7](https://www.linkedin.com/in/matheustavares7)
-*   **Email:** [tpowertech7@gmail.com]
+*   **Email:** tpowertech7@gmail.com
 
 Fique à vontade para explorar o código, abrir *issues* ou entrar em contato!
